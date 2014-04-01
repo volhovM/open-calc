@@ -36,9 +36,12 @@ public class ExpressionParser {
         }
 
         private Pair getToken() {
-            if (position >= string.length()) return new Pair("EOF", 0);
+            if (position >= string.length()) {
+                return new Pair("EOF", 0);
+            }
             int i;
-            for (i = position; i < string.length() && Character.isWhitespace(string.charAt(i)); i++) {
+            for (i = position; i < string.length() && Character.isWhitespace(string.charAt(i));
+                 i++) {
                 position++;
             }
             Character c = string.charAt(position);
@@ -63,7 +66,7 @@ public class ExpressionParser {
             if (c == '^') {
                 return new Pair(" ^ ", i);
             }
-            if (c == 'a'){
+            if (c == 'a') {
                 return new Pair(" abs ", i + 2); //TODO +-1
             }
             if (c == 'x' || c == 'y' || c == 'z') {
@@ -108,7 +111,9 @@ public class ExpressionParser {
                     break;
             }
             s = reader.next();
-            if (s.equals("EOF")) break;
+            if (s.equals("EOF")) {
+                break;
+            }
         }
         return ret;
     }
@@ -127,7 +132,9 @@ public class ExpressionParser {
                     break;
             }
             s = reader.next();
-            if (s.equals("EOF")) break;
+            if (s.equals("EOF")) {
+                break;
+            }
         }
         return ret;
     }
@@ -138,7 +145,7 @@ public class ExpressionParser {
         if (s.equals("z") || s.equals("x") || s.equals("y")) {
             reader.consume();
             ret = new Variable(s);
-        } else if (Character.isDigit(s.charAt(0))){
+        } else if (Character.isDigit(s.charAt(0))) {
             reader.consume();
             ret = new Const((int) Long.parseLong(s));
         } else if (s.equals("(")) {
@@ -146,20 +153,24 @@ public class ExpressionParser {
             ret = firstLevel(reader);
             if (!reader.next().equals(")")) {
                 throw new ParseException("stuff", ") -- bracket is not closed.");
-            } else reader.consume();
+            } else {
+                reader.consume();
+            }
         } else if (s.equals(" - ")) {
             reader.consume();
             ret = new UnaryMin(thirdLevel(reader));
         } else if (s.equals(" ~ ")) {
             reader.consume();
             ret = new Not(thirdLevel(reader));
-        } else if (s.equals(" abs ")){
+        } else if (s.equals(" abs ")) {
             reader.consume();
             ret = new Abs(thirdLevel(reader));
-        } else if (s.equals(" ^ ")){
-            reader.consume();
-            ret = new Power(thirdLevel(reader));
-        } else     throw new ParseException("Some strange symbol: " + s + " while parsing " + reader.position);
+            //        } else if (s.equals(" ^ ")){
+            //            reader.consume();
+            //            ret = new Power(thirdLevel(reader));
+        } else {
+            throw new ParseException("Some strange symbol: " + s + " while parsing " + reader.position);
+        }
         return ret;
     }
 }

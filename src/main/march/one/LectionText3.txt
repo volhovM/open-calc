@@ -1,0 +1,34 @@
+6.03.2014
+Объектно-ориентированная джава.
+Имеется инкапсуляция, наследование, полиморфизм.
+
+Делаем некоторый стек, короче
+void push(Object o)
+Object pop()
+Object peek()
+int size()
+boolean isEmpty()
+
+Ну короче не знаем, как применить предыдущие концепции к стеку, тройки Хоара там. Ну хз.
+Вот давайте впилим state: e1..es, s>=0 - size
+void push(Object o)
+//Post: s = s' + 1 & es = 0 & ei = ei' для i = 1..s
+
+//Pre: size > 0
+Object pop()
+//Post: result = es' & s = s' - 1 & ei = ei' для 1..s
+
+//Pre: size > 0
+Object peek()
+//Post: const & result = es
+
+int size()
+//Post: const & result = s
+
+boolean isEmpty()
+//Post: const & result s == 0
+
+
+ТУТ МЫ ПИЛИЛИ КОД
+Вот мы некоторые public поменяли на private, это называется инкапсуляцией.
+ADT - abstract data type
