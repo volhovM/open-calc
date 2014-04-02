@@ -15,6 +15,7 @@ public class Test {
             ExpressionParser.parse("1^(x^2 + x^2 + (2 + 3 + 4)* y ^3 + 10*y^(7 - 4))");
         //test
         //some more test
+        //tsetdfadgasfe
         expression = Simplifier.simplify(expression);
         System.out.println(expression.toString());
     }
