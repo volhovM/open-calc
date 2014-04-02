@@ -13,6 +13,7 @@ public class Test {
     public static void main(String[] args) throws ParseException {
         Expression3 expression =
             ExpressionParser.parse("1^(x^2 + x^2 + (2 + 3 + 4)* y ^3 + 10*y^(7 - 4))");
+        //test
         expression = Simplifier.simplify(expression);
         System.out.println(expression.toString());
     }
