@@ -57,7 +57,7 @@ public class ArrayDeque implements ArrayDequeInterface {
         assert n > 0;
         Object ret = mainArray[tail];
         if (tail == 0) {
-            tail = mainArray.length - 1; //TODO +-1
+            tail = mainArray.length - 1;
         } else {
             tail--;
         }

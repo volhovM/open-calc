@@ -7,7 +7,20 @@ import main.calc.calclib.*;
  */
 
 public class Simplifier {
-    public static Expression3 simplify(Expression3 expression) {
+    private Simplifier() {}
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private static int SIMPLIFIER_CONSTANT = 5;
+
+    public static Expression3 simplify(Expression3 expression3) {
+        for (int i = 0; i < SIMPLIFIER_CONSTANT; i++) {
+            expression3 = simplifyInner(expression3);
+        }
+        return expression3;
+    }
+
+    private static Expression3 simplifyInner(Expression3 expression) {
+        Class expressionClass = expression.getClass();
         if (expression instanceof Const || expression instanceof Variable) {
             return expression;
         }
@@ -27,12 +40,8 @@ public class Simplifier {
                         return a;
                     }
                 }
-                if (left instanceof Variable && right instanceof Variable) { //a + a -> 2 * a
-                    Variable variableOne = (Variable) left;
-                    Variable variableTwo = (Variable) right;
-                    if (variableOne.getVariableType() == variableTwo.getVariableType()) {
-                        return new Multiply(new Const(2), variableTwo);
-                    }
+                if (Expression3.equalsExp(left, right)) { //a + a -> 2 * a
+                    return new Multiply(new Const(2), left);
                 }
             } else if (expression instanceof Subtract) {
                 Expression3 left = ((Subtract) expression).a = simplify(((Subtract) expression).a);
@@ -53,13 +62,9 @@ public class Simplifier {
                         }
                     }
                 }
-                //can't make it general, works only for variables
-                if (left instanceof Variable && right instanceof Variable) {//a - a -> 0
-                    Variable variableOne = (Variable) left;
-                    Variable variableTwo = (Variable) right;
-                    if (variableOne.getVariableType() == variableTwo.getVariableType()) {
-                        return new Const(0);
-                    }
+                //TODO ensure it works
+                if (Expression3.equalsExp(left, right)) { //a - a -> 0
+                    return new Const(0);
                 }
             } else if (expression instanceof Multiply) {
                 Expression3 left = ((Multiply) expression).a = simplify(((Multiply) expression).a);
@@ -79,6 +84,9 @@ public class Simplifier {
                     if (constant.getConstant() == 1) {
                         return variable;
                     }
+                }
+                if (Expression3.equalsExp(left, right)) {
+                    return new Power(left, new Const(2));
                 }
             } else if (expression instanceof Divide) {
                 Expression3 left = ((Divide) expression).a = simplify(((Divide) expression).a);
@@ -104,13 +112,30 @@ public class Simplifier {
                         }
                     }
                 }
-                if (left instanceof Variable && right instanceof Variable) { //a / a -> 1
-                    Variable variableOne = (Variable) left;
-                    Variable variableTwo = (Variable) right;
-                    if (variableOne.getVariableType() == variableTwo.getVariableType()) {
+                //TODO ensure it works too
+                if (Expression3.equalsExp(left, right)) { //a / a -> 1
+                    return new Const(1);
+                }
+            } else if (expression instanceof Power) {
+                Expression3 left = ((Power) expression).a = simplify(((Power) expression).a);
+                Expression3 right = ((Power) expression).b = simplify(((Power) expression).b);
+                if (left instanceof Const && right instanceof Const) { //2 ^ 3 -> 8
+                    return new Const((int) Math.pow(((Const) left).getConstant(),
+                                                    ((Const) right).getConstant()));
+                } else if (right instanceof Const) { // a ^ 0, a ^ 1
+                    if (((Const) right).getConstant() == 0) {
+                        return new Const(1);
+                    } else if (((Const) right).getConstant() == 1) {
+                        return left;
+                    }
+                } else if (left instanceof Const) { // 0 ^ a, 1 ^ a
+                    if (((Const) left).getConstant() == 0) {
+                        return new Const(0);
+                    } else if (((Const) left).getConstant() == 1) {
                         return new Const(1);
                     }
                 }
+                return new Power(left, right);
             }
         }
         return expression;

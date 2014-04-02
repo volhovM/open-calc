@@ -64,7 +64,7 @@ public class ArrayDequeADT {
         assert arrayDequeADT.N > 0;
         Object ret = arrayDequeADT.mainArray[arrayDequeADT.tail];
         if (arrayDequeADT.tail == 0) {
-            arrayDequeADT.tail = arrayDequeADT.mainArray.length - 1; //TODO +-1
+            arrayDequeADT.tail = arrayDequeADT.mainArray.length - 1;
         } else {
             arrayDequeADT.tail--;
         }

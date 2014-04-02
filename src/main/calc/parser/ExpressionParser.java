@@ -150,7 +150,6 @@ public class ExpressionParser {
         return ret;
     }
 
-
     private static Expression3 fourthLevel(Reader reader) throws ParseException {
         String s = reader.next();
         Expression3 ret = null;
@@ -177,11 +176,9 @@ public class ExpressionParser {
         } else if (s.equals(" abs ")) {
             reader.consume();
             ret = new Abs(fourthLevel(reader));
-            //        } else if (s.equals(" ^ ")){
-            //            reader.consume();
-            //            ret = new Power(fourthLevel(reader));
         } else {
-            throw new ParseException("Some strange symbol: " + s + " while parsing " + reader.position);
+            throw new ParseException("Some strange symbol: " + s + " while parsing " + reader
+                .position);
         }
         return ret;
     }
