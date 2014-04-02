@@ -1,10 +1,10 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 02.04.14.
+ * @author volhovm
  */
 public class Power extends BinaryOperations {
-    final short PRIORITY = 4;
+    final short PRIORITY = 5;
 
     public Power(Expression3 a, Expression3 b) {
         super(a, b);

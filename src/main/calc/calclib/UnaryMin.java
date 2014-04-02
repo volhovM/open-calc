@@ -1,8 +1,9 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 3/18/14.
+ * @author volhovm
  */
+
 public class UnaryMin extends UnaryOperations implements Expression3 {
     final short PRIORITY = 4;
 

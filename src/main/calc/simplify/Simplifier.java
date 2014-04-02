@@ -1,18 +1,12 @@
 package main.calc.simplify;
 
 import main.calc.calclib.*;
-import main.calc.parser.ExpressionParser;
-import main.calc.parser.ParseException;
 
 /**
- * Created by volhovm on 01.04.14.
+ * @author volhovm
  */
-public class Simplifier {
-    public static void main(String[] args) throws ParseException {
-        System.out.println(Simplifier.simplify(ExpressionParser.parse(
-            "(2+3+4+5)* x * x * (y + 3*y + y) / (2-6)")).toString());
-    }
 
+public class Simplifier {
     public static Expression3 simplify(Expression3 expression) {
         if (expression instanceof Const || expression instanceof Variable) {
             return expression;
@@ -21,17 +15,19 @@ public class Simplifier {
             if (expression instanceof Add) {
                 Expression3 left = ((Add) expression).a = simplify(((Add) expression).a);
                 Expression3 right = ((Add) expression).b = simplify(((Add) expression).b);
-                if (left instanceof Const && right instanceof Const) {
+
+                if (left instanceof Const && right instanceof Const) { //1 + 2 -> 3
                     return new Const(((Const) left).getConstant() + ((Const) right).getConstant());
                 }
-                if ((left instanceof Const && right instanceof Variable) || (right instanceof Const && left instanceof Variable)) {
+                if ((left instanceof Const) //0 + a = a + 0 -> a
+                    || (right instanceof Const)) {
                     Const constant = (Const) ((left instanceof Const) ? left : right);
-                    Variable variable = (Variable) ((left instanceof Variable) ? left : right);
+                    Expression3 a = ((left instanceof Const) ? right : left);
                     if (constant.getConstant() == 0) {
-                        return variable;
+                        return a;
                     }
                 }
-                if (left instanceof Variable && right instanceof Variable) {
+                if (left instanceof Variable && right instanceof Variable) { //a + a -> 2 * a
                     Variable variableOne = (Variable) left;
                     Variable variableTwo = (Variable) right;
                     if (variableOne.getVariableType() == variableTwo.getVariableType()) {
@@ -41,21 +37,24 @@ public class Simplifier {
             } else if (expression instanceof Subtract) {
                 Expression3 left = ((Subtract) expression).a = simplify(((Subtract) expression).a);
                 Expression3 right = ((Subtract) expression).b = simplify(((Subtract) expression).b);
-                if (left instanceof Const && right instanceof Const) {
+
+                if (left instanceof Const && right instanceof Const) { // 3 - 2 -> 1
                     return new Const(((Const) left).getConstant() - ((Const) right).getConstant());
                 }
-                if ((left instanceof Const && right instanceof Variable) || (right instanceof Const && left instanceof Variable)) {
+                if ((left instanceof Const) //a - 0 -> a | 0 - a -> -a
+                    || (right instanceof Const)) {
                     Const constant = (Const) ((left instanceof Const) ? left : right);
-                    Variable variable = (Variable) ((left instanceof Variable) ? left : right);
+                    Expression3 a = ((left instanceof Const) ? right : left);
                     if (constant.getConstant() == 0) {
                         if (left instanceof Const) {
-                            return new UnaryMin(variable);
+                            return new UnaryMin(a);
                         } else {
-                            return variable;
+                            return a;
                         }
                     }
                 }
-                if (left instanceof Variable && right instanceof Variable) {
+                //can't make it general, works only for variables
+                if (left instanceof Variable && right instanceof Variable) {//a - a -> 0
                     Variable variableOne = (Variable) left;
                     Variable variableTwo = (Variable) right;
                     if (variableOne.getVariableType() == variableTwo.getVariableType()) {
@@ -65,10 +64,13 @@ public class Simplifier {
             } else if (expression instanceof Multiply) {
                 Expression3 left = ((Multiply) expression).a = simplify(((Multiply) expression).a);
                 Expression3 right = ((Multiply) expression).b = simplify(((Multiply) expression).b);
-                if (left instanceof Const && right instanceof Const) {
+
+                if (left instanceof Const && right instanceof Const) {//2 * 3 -> 6
                     return new Const(((Const) left).getConstant() * ((Const) right).getConstant());
                 }
-                if ((left instanceof Const && right instanceof Variable) || (right instanceof Const && left instanceof Variable)) {
+                if ((left instanceof Const && right instanceof Variable)
+                    || (right instanceof Const && left instanceof Variable)) { //a * 1 -> 1 | a *
+                    // 0 -> 0
                     Const constant = (Const) ((left instanceof Const) ? left : right);
                     Variable variable = (Variable) ((left instanceof Variable) ? left : right);
                     if (constant.getConstant() == 0) {
@@ -81,15 +83,19 @@ public class Simplifier {
             } else if (expression instanceof Divide) {
                 Expression3 left = ((Divide) expression).a = simplify(((Divide) expression).a);
                 Expression3 right = ((Divide) expression).b = simplify(((Divide) expression).b);
-                if (left instanceof Const && right instanceof Const) {
+                if (left instanceof Const && right instanceof Const) {      //6 / 4 = 1
                     return new Const(((Const) left).getConstant() / ((Const) right).getConstant());
                 }
-                if ((left instanceof Const && right instanceof Variable) || (right instanceof Const && left instanceof Variable)) {
+                if ((left instanceof Const && right instanceof Variable)    //1 / a -> a ^ (-1) |
+                // a / 1 -> a | 0 / a -> 0
+                    || (right instanceof Const && left instanceof Variable)) {
                     Const constant = (Const) ((left instanceof Const) ? left : right);
                     Variable variable = (Variable) ((left instanceof Variable) ? left : right);
                     if (constant.getConstant() == 1) {
                         if (right instanceof Const) {
                             return variable;
+                        } else {
+                            return new Power(variable, new UnaryMin(new Const(1)));
                         }
                     }
                     if (constant.getConstant() == 0) {
@@ -98,7 +104,7 @@ public class Simplifier {
                         }
                     }
                 }
-                if (left instanceof Variable && right instanceof Variable) {
+                if (left instanceof Variable && right instanceof Variable) { //a / a -> 1
                     Variable variableOne = (Variable) left;
                     Variable variableTwo = (Variable) right;
                     if (variableOne.getVariableType() == variableTwo.getVariableType()) {

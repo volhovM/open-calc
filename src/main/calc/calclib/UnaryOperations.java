@@ -1,8 +1,9 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 01.04.14.
+ * @author volhovm
  */
+
 public abstract class UnaryOperations implements Expression3 {
     public Expression3 a;
 

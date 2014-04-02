@@ -1,13 +1,13 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 3/15/14.
+ * @author volhovm
  */
+
 public class Variable implements Expression3 {
     final short PRIORITY = 5;
     private char variableType;
-    private int multiplier; //TODO insert power into parser, insert methods into simplifier
-    private int power;
+    private int power; //TODO insert power into parser, insert methods into simplifier
 
     public char getVariableType() {
         return variableType;
@@ -15,7 +15,6 @@ public class Variable implements Expression3 {
 
     public Variable(String s) {
         variableType = s.charAt(0);
-        multiplier = 1;
         power = 1;
     }
 

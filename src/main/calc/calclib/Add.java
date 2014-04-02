@@ -1,8 +1,9 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 3/15/14.
+ * @author volhovm
  */
+
 public class Add extends BinaryOperations implements Expression3 {
     final short PRIORITY = 2;
 
@@ -17,7 +18,8 @@ public class Add extends BinaryOperations implements Expression3 {
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " + " + (b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " + " + (
+            b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
     }
 
     //    @Override

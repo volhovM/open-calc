@@ -1,9 +1,8 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 3/15/14.
+ * @author volhovm
  */
-
 
 public class Const implements Expression3 {
     final short PRIORITY = 5;

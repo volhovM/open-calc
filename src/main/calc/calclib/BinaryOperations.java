@@ -1,8 +1,9 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 3/15/14.
+ * @author volhovm
  */
+
 public abstract class BinaryOperations implements Expression3 {
     public Expression3 a, b;
 

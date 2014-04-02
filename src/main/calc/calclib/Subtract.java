@@ -1,8 +1,9 @@
 package main.calc.calclib;
 
 /**
- * Created by volhovm on 3/15/14.
+ * @author volhovm
  */
+
 public class Subtract extends BinaryOperations implements Expression3 {
     final static short PRIORITY = 2;
 

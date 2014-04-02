@@ -3,8 +3,9 @@ package main.calc.parser;
 import java.util.Arrays;
 
 /**
- * Created by volhovm on 01.04.14.
+ * @author volhovm
  */
+
 public class ParseException extends Exception {
     public ParseException(String message) {
         super(message);

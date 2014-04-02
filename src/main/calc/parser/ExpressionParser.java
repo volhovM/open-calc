@@ -3,18 +3,15 @@ package main.calc.parser;
 import main.calc.calclib.*;
 
 /**
- * Created by volhovm on 31.03.14.
+ * @author volhovm
  */
-public class ExpressionParser {
 
-    public static void main(String[] args) {
-        try {
-            Expression3 exp = parse("-(-(-\t\t-5 + 16   *x*y) + 1 * z) -(((-11)))");
-            System.out.println(exp.evaluate(0, 0, 0));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
+public class ExpressionParser {
+    //A -> B {("+" | "-") B}
+    //B -> C {("*" | "/") C}
+    //C -> D ["^" (D | C)]
+    //D -> "abs" C | "~" C | "-" C | variable | const | "(" C ")"
+    // --NO POWER COMPOSITION ALLOWED
 
     private static class Reader {
         int position;
@@ -67,7 +64,7 @@ public class ExpressionParser {
                 return new Pair(" ^ ", i);
             }
             if (c == 'a') {
-                return new Pair(" abs ", i + 2); //TODO +-1
+                return new Pair(" abs ", i + 2);
             }
             if (c == 'x' || c == 'y' || c == 'z') {
                 return new Pair(c.toString(), i);
@@ -83,11 +80,11 @@ public class ExpressionParser {
             return new Pair("EOF", 0);
         }
 
-        public String next() {
+        private String next() {
             return getToken().str;
         }
 
-        public void consume() {
+        private void consume() {
             position = getToken().value + 1;
         }
     }
@@ -140,6 +137,21 @@ public class ExpressionParser {
     }
 
     private static Expression3 thirdLevel(Reader reader) throws ParseException {
+        Expression3 ret = fourthLevel(reader);
+        String s = reader.next();
+        while (s.equals(" ^ ")) {
+            reader.consume();
+            ret = new Power(ret, thirdLevel(reader));
+            s = reader.next();
+            if (s.equals("EOF")) {
+                break;
+            }
+        }
+        return ret;
+    }
+
+
+    private static Expression3 fourthLevel(Reader reader) throws ParseException {
         String s = reader.next();
         Expression3 ret = null;
         if (s.equals("z") || s.equals("x") || s.equals("y")) {
@@ -158,16 +170,16 @@ public class ExpressionParser {
             }
         } else if (s.equals(" - ")) {
             reader.consume();
-            ret = new UnaryMin(thirdLevel(reader));
+            ret = new UnaryMin(fourthLevel(reader));
         } else if (s.equals(" ~ ")) {
             reader.consume();
-            ret = new Not(thirdLevel(reader));
+            ret = new Not(fourthLevel(reader));
         } else if (s.equals(" abs ")) {
             reader.consume();
-            ret = new Abs(thirdLevel(reader));
+            ret = new Abs(fourthLevel(reader));
             //        } else if (s.equals(" ^ ")){
             //            reader.consume();
-            //            ret = new Power(thirdLevel(reader));
+            //            ret = new Power(fourthLevel(reader));
         } else {
             throw new ParseException("Some strange symbol: " + s + " while parsing " + reader.position);
         }
