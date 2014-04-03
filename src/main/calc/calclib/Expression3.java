@@ -7,7 +7,7 @@ package main.calc.calclib;
 public interface Expression3 {
     public int evaluate(int x, int y, int z);
 
-    //test
+    //here goes simplifier
     public static boolean equalsExp(Expression3 expressionOne, Expression3 expressionTwo) {
         if (expressionOne == null || expressionTwo == null) {
             return Boolean.parseBoolean(null);
