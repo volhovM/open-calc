@@ -19,6 +19,33 @@ public class Simplifier {
         return expression3;
     }
 
+
+    //    private class ExpressionByPowerIdentefier {
+    //        private class Pair<T> {
+    //            T a;
+    //            T b;
+    //
+    //            private Pair(T a, T b) {
+    //                this.a = a;
+    //                this.b = b;
+    //            }
+    //        }
+    //        private Pair<Integer> result = new Pair<Integer>(0, 0);
+    //        public Pair<Integer> containSamePowerVars(Expression3 expressionOne,
+    //                                                         Expression3 expressionTwo) {
+    //            if (expressionOne instanceof Power) {
+    //
+    //            } else if (expressionOne instanceof Variable) {
+    ////                return new
+    //            }
+    //            if (expressionTwo instanceof Power) {
+    //
+    //            } else if (expressionTwo instanceof Variable) {
+    //
+    //            }
+    //        }
+    //    }
+
     private static Expression3 simplifyInner(Expression3 expression) {
         Class expressionClass = expression.getClass();
         if (expression instanceof Const || expression instanceof Variable) {
@@ -62,7 +89,6 @@ public class Simplifier {
                         }
                     }
                 }
-                //TODO ensure it works
                 if (Expression3.equalsExp(left, right)) { //a - a -> 0
                     return new Const(0);
                 }
@@ -73,16 +99,14 @@ public class Simplifier {
                 if (left instanceof Const && right instanceof Const) {//2 * 3 -> 6
                     return new Const(((Const) left).getConstant() * ((Const) right).getConstant());
                 }
-                if ((left instanceof Const && right instanceof Variable)
-                    || (right instanceof Const && left instanceof Variable)) { //a * 1 -> 1 | a *
-                    // 0 -> 0
+                if ((left instanceof Const || right instanceof Const)) { //a * 1 -> 1 | a * 0 -> 0
                     Const constant = (Const) ((left instanceof Const) ? left : right);
-                    Variable variable = (Variable) ((left instanceof Variable) ? left : right);
+                    Expression3 a = ((left instanceof Const) ? right : left);
                     if (constant.getConstant() == 0) {
                         return new Const(0);
                     }
                     if (constant.getConstant() == 1) {
-                        return variable;
+                        return a;
                     }
                 }
                 if (Expression3.equalsExp(left, right)) {
@@ -94,16 +118,14 @@ public class Simplifier {
                 if (left instanceof Const && right instanceof Const) {      //6 / 4 = 1
                     return new Const(((Const) left).getConstant() / ((Const) right).getConstant());
                 }
-                if ((left instanceof Const && right instanceof Variable)    //1 / a -> a ^ (-1) |
-                // a / 1 -> a | 0 / a -> 0
-                    || (right instanceof Const && left instanceof Variable)) {
+                if (left instanceof Const || right instanceof Const) { //1 / a -> a ^ (-1) | a / 1 -> a | 0 / a -> 0
                     Const constant = (Const) ((left instanceof Const) ? left : right);
-                    Variable variable = (Variable) ((left instanceof Variable) ? left : right);
+                    Expression3 a = (left instanceof Const) ? right : left;
                     if (constant.getConstant() == 1) {
                         if (right instanceof Const) {
-                            return variable;
+                            return a;
                         } else {
-                            return new Power(variable, new UnaryMin(new Const(1)));
+                            return new Power(a, new UnaryMin(new Const(1)));
                         }
                     }
                     if (constant.getConstant() == 0) {
@@ -112,7 +134,6 @@ public class Simplifier {
                         }
                     }
                 }
-                //TODO ensure it works too
                 if (Expression3.equalsExp(left, right)) { //a / a -> 1
                     return new Const(1);
                 }

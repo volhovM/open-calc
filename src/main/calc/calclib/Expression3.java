@@ -7,7 +7,17 @@ package main.calc.calclib;
 public interface Expression3 {
     public int evaluate(int x, int y, int z);
 
-    //here goes simplifier
+    //    public static boolean almostEqualsExp(Expression3 expressionOne,
+    // Expression3 expressionTwo){
+    //        if (!equalsExp(expressionOne, expressionTwo)){ //if not exactly equals,
+    // comparing for equality like Var, Mul (Const, Var)
+    //            if (containSamePowerVars(expressionOne, expressionTwo)){
+    //
+    //            }
+    //        } else return false;
+    //    }
+
+    //exact equality for simplified expressions! (a != 1 * a)
     public static boolean equalsExp(Expression3 expressionOne, Expression3 expressionTwo) {
         if (expressionOne == null || expressionTwo == null) {
             return Boolean.parseBoolean(null);
