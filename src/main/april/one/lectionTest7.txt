@@ -10,3 +10,16 @@
     вызывать изнутри divisionByZeroError(), System.exit(0);
 
 А в моей уютной джаве есть Exception!
+Долго рассказывает про всякие штуки, а тут дошел до ассертов:
+throw new AssertionError(message);
+assert statement : message;
+
+Throwable -> Exception
+|
+v
+Error
+
+Error -- это что-то связанное с jvm, Exception -- это мой кривой код. Вот IOError -- это
+проблема чтения с несуществующего хардвара
+А вот есть еще RuntimeException -- нечто среднее между первыми двумя. Мы не пишем в каждом методе
+throws RuntimeException (там находится nullpointer и т д), с Error кстати такая же хуита.
