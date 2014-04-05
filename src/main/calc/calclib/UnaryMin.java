@@ -4,21 +4,21 @@ package main.calc.calclib;
  * @author volhovm
  */
 
-public class UnaryMin extends UnaryOperations implements Expression3 {
+public class UnaryMin extends UnaryOperations implements Expression {
     final short PRIORITY = 4;
 
-    public UnaryMin(Expression3 a) {
+    public UnaryMin(Expression a) {
         super(a);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public double evaluate(double x, double y, double z) {
         return -a.evaluate(x, y, z);
     }
 
     @Override
     public String toString() {
-        return "-" + (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")");
+        return "- " + (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")");
     }
 
     @Override

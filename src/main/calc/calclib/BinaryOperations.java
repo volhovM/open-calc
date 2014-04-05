@@ -1,24 +1,33 @@
 package main.calc.calclib;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * @author volhovm
  */
 
-public abstract class BinaryOperations implements Expression3 {
-    public Expression3 a, b;
+public abstract class BinaryOperations implements Expression {
+    protected ArrayList<Expression> arguments;
 
-    protected BinaryOperations(Expression3 a, Expression3 b) {
-        this.a = a;
-        this.b = b;
+    protected BinaryOperations(Expression... expressions) {
+        arguments = new ArrayList<Expression>();
+        Collections.addAll(arguments, expressions);
+    }
+
+    public void addArgument(Expression expression) {
+        if (arguments != null) {
+            arguments.add(expression);
+        }
     }
 
     @Override
-    abstract public int evaluate(int x, int y, int z);
+    abstract public double evaluate(double x, double y, double z);
 
     @Override
     abstract public String toString();
 
     //    @Override
-    //    abstract public Expression3 simplify();
+    //    abstract public Expression simplify();
 }
 

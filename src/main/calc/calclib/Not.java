@@ -4,16 +4,18 @@ package main.calc.calclib;
  * @author volhovm
  */
 
-public class Not extends UnaryOperations implements Expression3 {
+@Deprecated
+public class Not extends UnaryOperations implements Expression {
     final short PRIORITY = 4;
 
-    public Not(Expression3 a) {
+    public Not(Expression a) {
         super(a);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        return ~(a.evaluate(x, y, z));
+    public double evaluate(double x, double y, double z) {
+        //        return Unsafe.getUnsafe().;
+        return 0;
     }
 
     @Override

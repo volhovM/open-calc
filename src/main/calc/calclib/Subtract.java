@@ -1,24 +1,33 @@
 package main.calc.calclib;
 
+import java.util.stream.Collectors;
+
 /**
  * @author volhovm
  */
 
-public class Subtract extends BinaryOperations implements Expression3 {
+@Deprecated
+public class Subtract extends BinaryOperations implements Expression {
     final static short PRIORITY = 2;
 
-    public Subtract(Expression3 a, Expression3 b) {
+    public Subtract(Expression a, Expression b) {
         super(a, b);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        return a.evaluate(x, y, z) - b.evaluate(x, y, z);
+    public double evaluate(double x, double y, double z) {
+        return arguments.stream()
+            .map((Expression a) -> a.evaluate(x, y, z))
+            .reduce((a, b) -> a - b)
+            .get();
     }
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " - " + (b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+        return arguments.stream()
+            .map((Expression x) -> x.getPriority() >= PRIORITY ? x.toString() :
+                                   "(" + x.toString() + ")")
+            .collect(Collectors.joining(" - "));
     }
 
     @Override

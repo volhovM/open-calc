@@ -4,10 +4,10 @@ package main.calc.calclib;
  * @author volhovm
  */
 
-public class Variable implements Expression3 {
+public class Variable implements Expression {
     final short PRIORITY = 5;
     private char variableType;
-    private int power; //TODO insert power into parser, insert methods into simplifier
+    private double power; //TODO insert power doubleo parser, insert methods doubleo simplifier
 
     public char getVariableType() {
         return variableType;
@@ -19,7 +19,7 @@ public class Variable implements Expression3 {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public double evaluate(double x, double y, double z) {
         switch (variableType) {
             case 'x':
                 return x;

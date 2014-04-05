@@ -1,42 +1,33 @@
 package main.calc.calclib;
 
+import java.util.stream.Collectors;
+
 /**
  * @author volhovm
  */
 
-public class Add extends BinaryOperations implements Expression3 {
+public class Add extends BinaryOperations implements Expression {
     final short PRIORITY = 2;
 
-    public Add(Expression3 a, Expression3 b) {
-        super(a, b);
+    public Add(Expression... args) {
+        super(args);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        return a.evaluate(x, y, z) + b.evaluate(x, y, z);
+    public double evaluate(double x, double y, double z) {
+        return arguments.stream()
+            .map((Expression a) -> a.evaluate(x, y, z))
+            .reduce((a, b) -> a + b)
+            .get();
     }
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " + " + (
-            b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+        return arguments.stream()
+            .map((Expression x) -> x.getPriority() >= PRIORITY ? x.toString() :
+                                   "(" + x.toString() + ")")
+            .collect(Collectors.joining(" + "));
     }
-
-    //    @Override
-    //    public Expression3 simplify() {
-    //        Expression3 left = a.simplify();
-    //        Expression3 right = b.simplify();
-    //        if (left instanceof Const && right instanceof Const) {
-    //            Class<Const> constClass = new Class<Const>();
-    //            this = new Const(((Const) left).getConstant() + ((Const) right).getConstant());
-    //        } else if (left instanceof Const || right instanceof Const) {
-    //            ((Const) a.simplify()).getConstant();
-    //        } else if (b.simplify().evaluate(-1, -2, -3) == 0) {
-    //
-    //        } else {
-    //            return simplify()
-    //        }
-    //    }
 
     @Override
     public short getPriority() {

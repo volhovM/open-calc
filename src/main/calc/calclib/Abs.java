@@ -4,15 +4,15 @@ package main.calc.calclib;
  * @author volhovm
  */
 
-public class Abs extends UnaryOperations implements Expression3 {
+public class Abs extends UnaryOperations implements Expression {
     final short PRIORITY = 4;
 
-    public Abs(Expression3 a) {
+    public Abs(Expression a) {
         super(a);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public double evaluate(double x, double y, double z) {
         return Math.abs(a.evaluate(x, y, z));
     }
 

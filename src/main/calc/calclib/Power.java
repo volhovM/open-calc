@@ -1,23 +1,31 @@
 package main.calc.calclib;
 
+import java.util.stream.Collectors;
+
 /**
  * @author volhovm
  */
 public class Power extends BinaryOperations {
     final short PRIORITY = 5;
 
-    public Power(Expression3 a, Expression3 b) {
+    public Power(Expression a, Expression b) {
         super(a, b);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        return (int) Math.pow(a.evaluate(x, y, z), b.evaluate(x, y, z));
+    public double evaluate(double x, double y, double z) {
+        return arguments.stream()
+            .map((Expression a) -> a.evaluate(x, y, z))
+            .reduce(Math::pow)
+            .get();
     }
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " ^ " + (b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+        return arguments.stream()
+            .map((Expression x) -> x.getPriority() >= PRIORITY ? x.toString() :
+                                   "(" + x.toString() + ")")
+            .collect(Collectors.joining(" ^ "));
     }
 
     @Override

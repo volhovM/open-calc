@@ -89,13 +89,13 @@ public class ExpressionParser {
         }
     }
 
-    public static Expression3 parse(String expression) throws ParseException {
+    public static Expression parse(String expression) throws ParseException {
         Reader reader = new Reader(expression.trim());
         return firstLevel(reader);
     }
 
-    private static Expression3 firstLevel(Reader reader) throws ParseException {
-        Expression3 ret = secondLevel(reader);
+    private static Expression firstLevel(Reader reader) throws ParseException {
+        Expression ret = secondLevel(reader);
         String s = reader.next();
         while (s.equals(" + ") || s.equals(" - ")) {
             reader.consume();
@@ -115,8 +115,8 @@ public class ExpressionParser {
         return ret;
     }
 
-    private static Expression3 secondLevel(Reader reader) throws ParseException {
-        Expression3 ret = thirdLevel(reader);
+    private static Expression secondLevel(Reader reader) throws ParseException {
+        Expression ret = thirdLevel(reader);
         String s = reader.next();
         while (s.equals(" * ") || s.equals(" / ")) {
             reader.consume();
@@ -136,8 +136,8 @@ public class ExpressionParser {
         return ret;
     }
 
-    private static Expression3 thirdLevel(Reader reader) throws ParseException {
-        Expression3 ret = fourthLevel(reader);
+    private static Expression thirdLevel(Reader reader) throws ParseException {
+        Expression ret = fourthLevel(reader);
         String s = reader.next();
         while (s.equals(" ^ ")) {
             reader.consume();
@@ -150,9 +150,9 @@ public class ExpressionParser {
         return ret;
     }
 
-    private static Expression3 fourthLevel(Reader reader) throws ParseException {
+    private static Expression fourthLevel(Reader reader) throws ParseException {
         String s = reader.next();
-        Expression3 ret = null;
+        Expression ret = null;
         if (s.equals("z") || s.equals("x") || s.equals("y")) {
             reader.consume();
             ret = new Variable(s);

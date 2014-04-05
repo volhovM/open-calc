@@ -1,6 +1,6 @@
 package main.calc;
 
-import main.calc.calclib.Expression3;
+import main.calc.calclib.Expression;
 import main.calc.parser.ExpressionParser;
 import main.calc.parser.ParseException;
 import main.calc.simplify.Simplifier;
@@ -11,7 +11,7 @@ import main.calc.simplify.Simplifier;
 
 public class Test {
     public static void main(String[] args) throws ParseException {
-        Expression3 expression =
+        Expression expression =
             ExpressionParser.parse("x^2 + 1 * x^2 + x^(3-1) / 1 + (2 + 3 + 4)* y ^3 + 10*y^(7 - " +
                                        "4)");
         expression = Simplifier.simplify(expression);

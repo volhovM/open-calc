@@ -5,18 +5,18 @@ package main.calc.calclib;
  */
 
 @Deprecated
-public class Ternary implements Expression3 {
-    Expression3 a, b, c;
+public class Ternary implements Expression {
+    Expression a, b, c;
 
     private Ternary() {}
-    //    public Ternary(Expression3 a, Expression3 b, Expression3 c) {
-//        this.a = a;
+    //    public Ternary(Expression a, Expression b, Expression c) {
+    //        this.a = a;
 //        this.b = b;
 //        this.c = c;
 //    }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public double evaluate(double x, double y, double z) {
         return a.evaluate(x, y, z) != 0 ? b.evaluate(x, y, z) : c.evaluate(x, y, z);
     }
 
