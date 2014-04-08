@@ -95,16 +95,16 @@ public class ExpressionParser {
     }
 
     private static Expression firstLevel(Reader reader) throws ParseException {
-        Expression ret = secondLevel(reader);
+        Add ret = new Add(secondLevel(reader));
         String s = reader.next();
         while (s.equals(" + ") || s.equals(" - ")) {
             reader.consume();
             switch (s) {
                 case " + ":
-                    ret = new Add(ret, secondLevel(reader));
+                    ret.addArgument(secondLevel(reader));
                     break;
                 case " - ":
-                    ret = new Subtract(ret, secondLevel(reader));
+                    ret.addArgument(new UnaryMin(secondLevel(reader)));
                     break;
             }
             s = reader.next();
@@ -112,20 +112,20 @@ public class ExpressionParser {
                 break;
             }
         }
-        return ret;
+        return ret.size() == 1 ? ret.getOnlyOperation() : ret;
     }
 
     private static Expression secondLevel(Reader reader) throws ParseException {
-        Expression ret = thirdLevel(reader);
+        Multiply ret = new Multiply(thirdLevel(reader));
         String s = reader.next();
         while (s.equals(" * ") || s.equals(" / ")) {
             reader.consume();
             switch (s) {
                 case " * ":
-                    ret = new Multiply(ret, thirdLevel(reader));
+                    ret.addArgument(thirdLevel(reader));
                     break;
                 case " / ":
-                    ret = new Divide(ret, thirdLevel(reader));
+                    ret.addArgument(new Power(thirdLevel(reader), new UnaryMin(new Const(1))));
                     break;
             }
             s = reader.next();
@@ -133,26 +133,26 @@ public class ExpressionParser {
                 break;
             }
         }
-        return ret;
+        return ret.size() == 1 ? ret.getOnlyOperation() : ret;
     }
 
     private static Expression thirdLevel(Reader reader) throws ParseException {
-        Expression ret = fourthLevel(reader);
+        Power ret = new Power(fourthLevel(reader));
         String s = reader.next();
         while (s.equals(" ^ ")) {
             reader.consume();
-            ret = new Power(ret, thirdLevel(reader));
+            ret.addArgument(thirdLevel(reader));
             s = reader.next();
             if (s.equals("EOF")) {
                 break;
             }
         }
-        return ret;
+        return ret.size() == 1 ? ret.getOnlyOperation() : ret;
     }
 
     private static Expression fourthLevel(Reader reader) throws ParseException {
         String s = reader.next();
-        Expression ret = null;
+        Expression ret;
         if (s.equals("z") || s.equals("x") || s.equals("y")) {
             reader.consume();
             ret = new Variable(s);
@@ -163,7 +163,7 @@ public class ExpressionParser {
             reader.consume();
             ret = firstLevel(reader);
             if (!reader.next().equals(")")) {
-                throw new ParseException("stuff", ") -- bracket is not closed.");
+                throw new ParseException(") -- bracket is not closed.");
             } else {
                 reader.consume();
             }

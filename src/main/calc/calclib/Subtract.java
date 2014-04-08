@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
  * @author volhovm
  */
 
+@SuppressWarnings("UnusedDeclaration")
 @Deprecated
-public class Subtract extends BinaryOperations implements Expression {
+public class Subtract extends BinaryOperation implements Expression {
     final static short PRIORITY = 2;
 
     public Subtract(Expression a, Expression b) {

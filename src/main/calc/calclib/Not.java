@@ -5,7 +5,7 @@ package main.calc.calclib;
  */
 
 @Deprecated
-public class Not extends UnaryOperations implements Expression {
+public class Not extends UnaryOperation implements Expression {
     final short PRIORITY = 4;
 
     public Not(Expression a) {

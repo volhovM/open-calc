@@ -4,7 +4,7 @@ package main.calc.calclib;
  * @author volhovm
  */
 
-public class UnaryMin extends UnaryOperations implements Expression {
+public class UnaryMin extends UnaryOperation implements Expression {
     final short PRIORITY = 4;
 
     public UnaryMin(Expression a) {

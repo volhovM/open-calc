@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
  * @author volhovm
  */
 
-public class Add extends BinaryOperations implements Expression {
+public class Add extends BinaryOperation implements Expression {
     final short PRIORITY = 2;
 
     public Add(Expression... args) {

@@ -4,7 +4,7 @@ package main.calc.calclib;
  * @author volhovm
  */
 
-public class Abs extends UnaryOperations implements Expression {
+public class Abs extends UnaryOperation implements Expression {
     final short PRIORITY = 4;
 
     public Abs(Expression a) {

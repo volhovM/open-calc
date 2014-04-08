@@ -4,10 +4,10 @@ package main.calc.calclib;
  * @author volhovm
  */
 
-public abstract class UnaryOperations implements Expression {
+public abstract class UnaryOperation implements Expression {
     public Expression a;
 
-    protected UnaryOperations(Expression a) {
+    protected UnaryOperation(Expression a) {
         this.a = a;
     }
 

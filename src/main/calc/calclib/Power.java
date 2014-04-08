@@ -1,15 +1,16 @@
 package main.calc.calclib;
 
+
 import java.util.stream.Collectors;
 
 /**
  * @author volhovm
  */
-public class Power extends BinaryOperations {
+public class Power extends BinaryOperation {
     final short PRIORITY = 5;
 
-    public Power(Expression a, Expression b) {
-        super(a, b);
+    public Power(Expression... args) {
+        super(args);
     }
 
     @Override

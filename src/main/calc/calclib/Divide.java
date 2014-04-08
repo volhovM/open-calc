@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
  * @author volhovm
  */
 
+@SuppressWarnings("UnusedDeclaration")
 @Deprecated
-public class Divide extends BinaryOperations implements Expression {
+public class Divide extends BinaryOperation implements Expression {
     final short PRIORITY = 3;
 
     public Divide(Expression a, Expression b) {

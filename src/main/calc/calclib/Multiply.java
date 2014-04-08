@@ -6,11 +6,11 @@ import java.util.stream.Collectors;
  * @author volhovm
  */
 
-public class Multiply extends BinaryOperations implements Expression {
+public class Multiply extends BinaryOperation implements Expression {
     final short PRIORITY = 3;
 
-    public Multiply(Expression a, Expression b) {
-        super(a, b);
+    public Multiply(Expression... args) {
+        super(args);
     }
 
     @Override

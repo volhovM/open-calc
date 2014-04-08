@@ -36,27 +36,27 @@ public interface Expression {
     //                return ((Const) expressionOne).getConstant() == ((Const) expressionTwo)
     //                    .getConstant();
     //            } else if (expressionOne instanceof Multiply || expressionOne instanceof Add) {
-    //                return equalsExp(((BinaryOperations) expressionOne).a,
-    //                                 ((BinaryOperations) expressionTwo).a) //a * b = c * d if
-    //                    && equalsExp(((BinaryOperations) expressionTwo).b,
-    //                                 ((BinaryOperations) expressionOne).b) // a ==c && b == d
+    //                return equalsExp(((BinaryOperation) expressionOne).a,
+    //                                 ((BinaryOperation) expressionTwo).a) //a * b = c * d if
+    //                    && equalsExp(((BinaryOperation) expressionTwo).b,
+    //                                 ((BinaryOperation) expressionOne).b) // a ==c && b == d
     // || a ==
     //                                 // d && b == c
     //                    ||
-    //                    equalsExp(((BinaryOperations) expressionOne).a,
-    //                              ((BinaryOperations) expressionTwo).b)
-    //                        && equalsExp(((BinaryOperations) expressionTwo).b,
-    //                                     ((BinaryOperations) expressionOne).a);
+    //                    equalsExp(((BinaryOperation) expressionOne).a,
+    //                              ((BinaryOperation) expressionTwo).b)
+    //                        && equalsExp(((BinaryOperation) expressionTwo).b,
+    //                                     ((BinaryOperation) expressionOne).a);
     //
     //            } else if (expressionOne instanceof Divide || expressionOne instanceof Subtract ||
     //                expressionOne instanceof Power) {
-    //                return equalsExp(((BinaryOperations) expressionOne).a,
-    //                                 ((BinaryOperations) expressionTwo).a)
-    //                    && equalsExp(((BinaryOperations) expressionTwo).b,
-    //                                 ((BinaryOperations) expressionOne).b);
-    //            } else if (expressionOne instanceof UnaryOperations) {
-    //                return equalsExp(((UnaryOperations) expressionOne).a,
-    //                                 ((UnaryOperations) expressionTwo).a);
+    //                return equalsExp(((BinaryOperation) expressionOne).a,
+    //                                 ((BinaryOperation) expressionTwo).a)
+    //                    && equalsExp(((BinaryOperation) expressionTwo).b,
+    //                                 ((BinaryOperation) expressionOne).b);
+    //            } else if (expressionOne instanceof UnaryOperation) {
+    //                return equalsExp(((UnaryOperation) expressionOne).a,
+    //                                 ((UnaryOperation) expressionTwo).a);
     //            }
     //        }
     //        return false;
