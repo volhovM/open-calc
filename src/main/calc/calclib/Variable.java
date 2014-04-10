@@ -7,7 +7,6 @@ package main.calc.calclib;
 public class Variable implements Expression {
     final short PRIORITY = 5;
     private char variableType;
-    private double power; //TODO insert power doubleo parser, insert methods doubleo simplifier
 
     public char getVariableType() {
         return variableType;
@@ -15,7 +14,6 @@ public class Variable implements Expression {
 
     public Variable(String s) {
         variableType = s.charAt(0);
-        power = 1;
     }
 
     @Override

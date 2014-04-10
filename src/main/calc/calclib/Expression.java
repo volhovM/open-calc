@@ -22,7 +22,7 @@ public interface Expression {
     //        } else return false;
     //    }
 
-    //exact equality for simplified expressions! (a != 1 * a)
+    //exact equality for simplified expressions! (a != 1 * a) TODO recover equals method
     //    public static boolean equalsExp(Expression expressionOne, Expression expressionTwo) {
     //        if (expressionOne == null || expressionTwo == null) {
     //            return Boolean.parseBoolean(null);
