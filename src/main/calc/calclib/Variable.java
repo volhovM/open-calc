@@ -1,6 +1,6 @@
 package main.calc.calclib;
 
-import main.calc.calclib.Exceptions.IncorrectVariableException;
+import main.calc.calclib.exceptions.IncorrectVariableException;
 
 /**
  * @author volhovm

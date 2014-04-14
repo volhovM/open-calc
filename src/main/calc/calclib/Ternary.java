@@ -1,11 +1,12 @@
 package main.calc.calclib;
 
-import main.calc.calclib.Exceptions.CalcException;
+import main.calc.calclib.exceptions.CalcException;
 
 /**
  * @author volhovm
  */
 
+@SuppressWarnings("UnusedDeclaration")
 @Deprecated
 public class Ternary implements Expression3 {
     Expression3 a, b, c;

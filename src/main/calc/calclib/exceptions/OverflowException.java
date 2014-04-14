@@ -1,4 +1,4 @@
-package main.calc.calclib.Exceptions;
+package main.calc.calclib.exceptions;
 
 /**
  * @author volhovm
