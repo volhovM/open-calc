@@ -1,6 +1,7 @@
 package main.calc.calclib;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author volhovm
@@ -35,4 +36,6 @@ public class Divide extends BinaryOperation implements Expression {
     public short getPriority() {
         return PRIORITY;
     }
+
+
 }

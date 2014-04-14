@@ -4,6 +4,7 @@ import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.stream.Stream;
 
 /**
  * @author volhovm
@@ -31,6 +32,14 @@ public abstract class BinaryOperation implements Expression {
         }
     }
 
+    public Expression getOperation(int index) {
+        return arguments.get(index);
+    }
+
+    public void removeOperation(int index) {
+        arguments.remove(index);
+    }
+
     @Override
     abstract public double evaluate(double x, double y, double z);
 
@@ -41,6 +50,9 @@ public abstract class BinaryOperation implements Expression {
         return arguments.size();
     }
 
+    public Stream<Expression> stream() {
+        return arguments.stream();
+    }
     //    @Override
     //    abstract public Expression simplify();
 }
