@@ -1,5 +1,7 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.CalcException;
+
 /**
  * @author volhovm
  */
@@ -13,7 +15,7 @@ public abstract class BinaryOperations implements Expression3 {
     }
 
     @Override
-    abstract public int evaluate(int x, int y, int z);
+    abstract public int evaluate(int x, int y, int z) throws CalcException;
 
     @Override
     abstract public String toString();

@@ -1,5 +1,8 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.CalcException;
+import main.calc.calclib.Exceptions.DivideByZeroException;
+
 /**
  * @author volhovm
  */
@@ -12,8 +15,12 @@ public class Divide extends BinaryOperations implements Expression3 {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        return a.evaluate(x, y, z) / b.evaluate(x, y, z);
+    public int evaluate(int x, int y, int z) throws CalcException {
+        int right = b.evaluate(x, y, z);
+        if (right == 0) {
+            throw new DivideByZeroException("Division by zero when evaluating" + this);
+        }
+        return a.evaluate(x, y, z) / right;
     }
 
     @Override

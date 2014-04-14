@@ -1,5 +1,7 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.CalcException;
+
 /**
  * @author volhovm
  */
@@ -12,7 +14,7 @@ public class Not extends UnaryOperations implements Expression3 {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public int evaluate(int x, int y, int z) throws CalcException {
         return ~(a.evaluate(x, y, z));
     }
 

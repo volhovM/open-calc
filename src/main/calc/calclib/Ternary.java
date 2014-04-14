@@ -1,5 +1,7 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.CalcException;
+
 /**
  * @author volhovm
  */
@@ -10,13 +12,13 @@ public class Ternary implements Expression3 {
 
     private Ternary() {}
     //    public Ternary(Expression3 a, Expression3 b, Expression3 c) {
-//        this.a = a;
-//        this.b = b;
-//        this.c = c;
-//    }
+    //        this.a = a;
+    //        this.b = b;
+    //        this.c = c;
+    //    }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public int evaluate(int x, int y, int z) throws CalcException {
         return a.evaluate(x, y, z) != 0 ? b.evaluate(x, y, z) : c.evaluate(x, y, z);
     }
 

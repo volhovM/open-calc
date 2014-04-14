@@ -1,5 +1,8 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.CalcException;
+import main.calc.calclib.Exceptions.OverflowException;
+
 /**
  * @author volhovm
  */
@@ -11,13 +14,18 @@ public class Power extends BinaryOperations {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
-        return (int) Math.pow(a.evaluate(x, y, z), b.evaluate(x, y, z));
+    public int evaluate(int x, int y, int z) throws CalcException {
+        long ret = (long) Math.pow(a.evaluate(x, y, z), b.evaluate(x, y, z));
+        if (ret > Integer.MAX_VALUE) {
+            throw new OverflowException("there was an overflow while evaluating: " + this);
+        }
+        return (int) ret;
     }
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " ^ " + (b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " ^ " + (
+            b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
     }
 
     @Override

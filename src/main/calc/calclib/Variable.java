@@ -1,5 +1,7 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.IncorrectVariableException;
+
 /**
  * @author volhovm
  */
@@ -7,7 +9,6 @@ package main.calc.calclib;
 public class Variable implements Expression3 {
     final short PRIORITY = 5;
     private char variableType;
-    private int power; //TODO insert power into parser, insert methods into simplifier
 
     public char getVariableType() {
         return variableType;
@@ -15,11 +16,10 @@ public class Variable implements Expression3 {
 
     public Variable(String s) {
         variableType = s.charAt(0);
-        power = 1;
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public int evaluate(int x, int y, int z) throws IncorrectVariableException {
         switch (variableType) {
             case 'x':
                 return x;
@@ -28,7 +28,7 @@ public class Variable implements Expression3 {
             case 'z':
                 return z;
             default:
-                return 0;
+                throw new IncorrectVariableException(variableType);
         }
     }
 

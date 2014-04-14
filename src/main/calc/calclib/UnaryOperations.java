@@ -1,5 +1,7 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.CalcException;
+
 /**
  * @author volhovm
  */
@@ -12,5 +14,5 @@ public abstract class UnaryOperations implements Expression3 {
     }
 
     @Override
-    public abstract int evaluate(int x, int y, int z);
+    public abstract int evaluate(int x, int y, int z) throws CalcException;
 }

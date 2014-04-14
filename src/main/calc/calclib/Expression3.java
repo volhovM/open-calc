@@ -1,11 +1,13 @@
 package main.calc.calclib;
 
+import main.calc.calclib.Exceptions.CalcException;
+
 /**
  * @author volhovm
  */
 
 public interface Expression3 {
-    public int evaluate(int x, int y, int z);
+    public int evaluate(int x, int y, int z) throws CalcException;
 
     //test
     public static boolean equalsExp(Expression3 expressionOne, Expression3 expressionTwo) {
@@ -24,7 +26,7 @@ public interface Expression3 {
                                  ((BinaryOperations) expressionTwo).a) //a * b = c * d if
                     && equalsExp(((BinaryOperations) expressionTwo).b,
                                  ((BinaryOperations) expressionOne).b) // a ==c && b == d || a ==
-                                 // d && b == c
+                    // d && b == c
                     ||
                     equalsExp(((BinaryOperations) expressionOne).a,
                               ((BinaryOperations) expressionTwo).b)
