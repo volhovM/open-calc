@@ -8,6 +8,11 @@ package main.calc.calclib.exceptions;
 
 @SuppressWarnings("UnusedDeclaration")
 public class IncorrectVariableException extends CalcException {
+    private final static String shortMsg = "incorrect variable";
+
+    public String getShortMsg() {
+        return shortMsg;
+    }
     public IncorrectVariableException() {
         super();
     }

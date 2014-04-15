@@ -7,6 +7,12 @@ package main.calc.calclib.exceptions;
 
 
 public class CalcException extends Exception {
+    private static final String shortMsg = "calc exception";
+
+    public String getShortMsg() {
+        return shortMsg;
+    }
+
     public CalcException() {
         super();
     }

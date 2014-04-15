@@ -8,6 +8,12 @@ package main.calc.calclib.exceptions;
 
 @SuppressWarnings("UnusedDeclaration")
 public class DivideByZeroException extends CalcException {
+    private final static String shortMsg = "division by zero";
+
+    public String getShortMsg() {
+        return shortMsg;
+    }
+
     public DivideByZeroException() {
         super("there was a division by zero while evaluating expression");
     }

@@ -1,22 +1,30 @@
 package main.calc.calclib;
 
 import main.calc.calclib.exceptions.CalcException;
+import main.calc.calclib.exceptions.IncorrectLogariphmArgument;
 import main.calc.calclib.exceptions.OverflowException;
 
 /**
  * @author volhovm
+ *         Created on 15.04.14
  */
 
-public class Subtract extends BinaryOperations implements Expression3 {
-    final static short PRIORITY = 2;
 
-    public Subtract(Expression3 a, Expression3 b) {
-        super(a, b);
+public class BinaryLog extends UnaryOperations {
+    final short PRIORITY = 4;
+    //    final static double ln2 = 0.30102999566;
+
+    public BinaryLog(Expression3 a) {
+        super(a);
     }
 
     @Override
     public int evaluate(int x, int y, int z) throws CalcException {
-        long ret = (long) a.evaluate(x, y, z) - (long) b.evaluate(x, y, z);
+        double arg = (double) a.evaluate(x, y, z);
+        if (arg <= 0) {
+            throw new IncorrectLogariphmArgument();
+        }
+        long ret = 31 - Integer.numberOfLeadingZeros((int) arg);
         if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE) {
             throw new OverflowException("there was an overflow while evaluating: " + this);
         }
@@ -25,8 +33,7 @@ public class Subtract extends BinaryOperations implements Expression3 {
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " - " + (
-            b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+        return ("lb(" + a.toString() + ")");
     }
 
     @Override

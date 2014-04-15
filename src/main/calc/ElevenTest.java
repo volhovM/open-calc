@@ -2,9 +2,8 @@ package main.calc;
 
 import main.calc.calclib.Expression3;
 import main.calc.calclib.exceptions.CalcException;
-import main.calc.calclib.exceptions.DivideByZeroException;
-import main.calc.calclib.exceptions.IncorrectVariableException;
-import main.calc.calclib.exceptions.OverflowException;
+import main.calc.parser.ExpressionParser;
+import main.calc.parser.ParseException;
 
 /**
  * @author volhovm
@@ -15,21 +14,33 @@ import main.calc.calclib.exceptions.OverflowException;
 public class ElevenTest {
     private ElevenTest() {}
 
+    public static String evaluate(String string) {
+        try {
+            return evaluate(ExpressionParser.parse(string));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static String evaluate(Expression3 expression) {
-        StringBuilder ret = new StringBuilder("x          f");
+        StringBuilder ret = new StringBuilder("x y z        f");
         for (int i = 0; i < 11; i++) {
-            ret.append("\r\n").append(i).append("          ");
-            try {
-                ret.append(expression.evaluate(i, 0, 0));
-            } catch (DivideByZeroException exc) {
-                ret.append("division by zero");
-            } catch (IncorrectVariableException exc) {
-                ret.append("wrong variable");
-            } catch (OverflowException exc) {
-                ret.append("overflow");
-            } catch (CalcException e) {
-                e.printStackTrace();
-                ret.append("calc exception");
+            for (int j = 0; j < 11; j++) {
+                for (int k = 0; k < 11; k++) {
+                    ret.append("\r\n")
+                        .append(i)
+                        .append(" ")
+                        .append(j)
+                        .append(" ")
+                        .append(k)
+                        .append("        ");
+                    try {
+                        ret.append(expression.evaluate(i, j, k));
+                    } catch (CalcException exc) {
+                        ret.append(exc.getShortMsg());
+                    }
+                }
             }
         }
         return ret.toString();

@@ -10,7 +10,7 @@ public class ExpressionParser {
     //A -> B {("+" | "-") B}
     //B -> C {("*" | "/") C}
     //C -> D ["^" (D | C)]
-    //D -> "abs" C | "~" C | "-" C | variable | const | "(" C ")"
+    //D -> "lb" C | "abs" C | "~" C | "-" C | variable | const | "(" C ")"
     // --NO POWER COMPOSITION ALLOWED
 
 
@@ -78,8 +78,14 @@ public class ExpressionParser {
     private static Expression3 fourthLevel(ExpressionReader reader) throws ParseException {
         String s = reader.next();
         Expression3 ret = null;
-        if (s.length() == 1 && Character.isLowerCase(s.charAt(0)) && Character.isAlphabetic(s.charAt(
-            0))) {
+        if (s.equals(" abs ")) {
+            reader.consume();
+            ret = new Abs(fourthLevel(reader));
+        } else if (s.equals(" lb ")) {
+            reader.consume();
+            ret = new BinaryLog(firstLevel(reader));
+        } else if (s.length() == 1 && Character.isLowerCase(s.charAt(0)) &&
+            Character.isAlphabetic(s.charAt(0))) {
             reader.consume();
             ret = new Variable(s);
         } else if (Character.isDigit(s.charAt(0))) {
@@ -99,12 +105,10 @@ public class ExpressionParser {
         } else if (s.equals(" ~ ")) {
             reader.consume();
             ret = new Not(fourthLevel(reader));
-        } else if (s.equals(" abs ")) {
-            reader.consume();
-            ret = new Abs(fourthLevel(reader));
         } else {
             throw new ParseException("Symbol in a wrong place: '" + s + "' while parsing " +
-                                         reader.getString() + " at position " + reader.getPosition());
+                                         reader.getString() + " at position " + reader
+                .getPosition());
         }
         return ret;
     }

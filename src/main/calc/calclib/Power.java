@@ -7,7 +7,7 @@ import main.calc.calclib.exceptions.OverflowException;
  * @author volhovm
  */
 public class Power extends BinaryOperations {
-    final short PRIORITY = 5;
+    private static final short PRIORITY = 5;
 
     public Power(Expression3 a, Expression3 b) {
         super(a, b);
@@ -24,9 +24,11 @@ public class Power extends BinaryOperations {
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " ^ " + (
+        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + getOP() + (
             b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
     }
+
+    private String getOP() {return " ^ ";}
 
     @Override
     public short getPriority() {
