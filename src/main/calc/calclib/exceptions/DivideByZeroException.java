@@ -21,8 +21,4 @@ public class DivideByZeroException extends CalcException {
     public DivideByZeroException(String s) {
         super(s);
     }
-
-    public DivideByZeroException(String s, Throwable cause) {
-        super(s, cause);
-    }
 }

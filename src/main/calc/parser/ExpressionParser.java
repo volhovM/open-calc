@@ -83,7 +83,7 @@ public class ExpressionParser {
             ret = new Abs(fourthLevel(reader));
         } else if (s.equals(" lb ")) {
             reader.consume();
-            ret = new BinaryLog(firstLevel(reader));
+            ret = new BinaryLog(fourthLevel(reader));
         } else if (s.length() == 1 && Character.isLowerCase(s.charAt(0)) &&
             Character.isAlphabetic(s.charAt(0))) {
             reader.consume();

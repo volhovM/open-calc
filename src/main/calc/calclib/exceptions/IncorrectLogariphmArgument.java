@@ -21,8 +21,4 @@ public class IncorrectLogariphmArgument extends CalcException {
     public IncorrectLogariphmArgument(String s) {
         super(s);
     }
-
-    public IncorrectLogariphmArgument(String s, Throwable cause) {
-        super(s, cause);
-    }
 }

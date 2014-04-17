@@ -13,6 +13,7 @@ public class IncorrectVariableException extends CalcException {
     public String getShortMsg() {
         return shortMsg;
     }
+
     public IncorrectVariableException() {
         super();
     }
@@ -23,9 +24,5 @@ public class IncorrectVariableException extends CalcException {
 
     public IncorrectVariableException(String s) {
         super(s);
-    }
-
-    public IncorrectVariableException(String s, Throwable cause) {
-        super(s, cause);
     }
 }

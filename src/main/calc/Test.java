@@ -18,6 +18,7 @@ public class Test {
         //            System.err.println("Some unknown exception appeared:");
         //            exc.printStackTrace();
         //        }
-        System.out.println(ElevenTest.evaluate("x^5 + y^y^y*lb(x^2+3)"));
+
+        System.out.println(ElevenTest.evaluate("lb(2000000000000))"));
     }
 }

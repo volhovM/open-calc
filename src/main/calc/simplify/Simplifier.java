@@ -137,6 +137,11 @@ public class Simplifier {
                 }
                 return new Power(left, right);
             }
+        } else if (expression instanceof UnaryOperations) {
+            Expression3 a = simplify(((UnaryOperations) expression).a);
+            if (a instanceof Const) {
+                return new Const(expression.evaluate(-1, -1, -1)); //random, doesn't matter actually
+            }
         }
         return expression;
     }

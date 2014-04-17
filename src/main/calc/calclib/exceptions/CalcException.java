@@ -6,7 +6,7 @@ package main.calc.calclib.exceptions;
  */
 
 
-public class CalcException extends Exception {
+public class CalcException extends ArithmeticException {
     private static final String shortMsg = "calc exception";
 
     public String getShortMsg() {
@@ -19,9 +19,5 @@ public class CalcException extends Exception {
 
     public CalcException(String s) {
         super(s);
-    }
-
-    public CalcException(String s, Throwable cause) {
-        super(s, cause);
     }
 }
