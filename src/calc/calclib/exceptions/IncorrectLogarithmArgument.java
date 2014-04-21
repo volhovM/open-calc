@@ -6,7 +6,7 @@ package calc.calclib.exceptions;
  */
 
 
-public class IncorrectLogariphmArgument extends CalcException {
+public class IncorrectLogarithmArgument extends CalcException {
     private final static String shortMsg = "incorrect logarithm argument";
 
     @Override
@@ -14,11 +14,11 @@ public class IncorrectLogariphmArgument extends CalcException {
         return shortMsg;
     }
 
-    public IncorrectLogariphmArgument() {
+    public IncorrectLogarithmArgument() {
         super("Incorrect binary logarithm argument");
     }
 
-    public IncorrectLogariphmArgument(String s) {
+    public IncorrectLogarithmArgument(String s) {
         super(s);
     }
 }

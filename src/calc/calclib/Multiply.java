@@ -1,32 +1,28 @@
 package calc.calclib;
 
 import calc.calclib.exceptions.CalcException;
-import calc.calclib.exceptions.OverflowException;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
  */
 
-public class Multiply extends BinaryOperations implements Expression3 {
-    final short PRIORITY = 3;
+public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
+    private final short PRIORITY = 3;
 
-    public Multiply(Expression3 a, Expression3 b) {
+    public Multiply(Expression3<T> a, Expression3<T> b) {
         super(a, b);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) throws CalcException {
-        long ret = (long) a.evaluate(x, y, z) * (long) b.evaluate(x, y, z);
-        if (ret > Integer.MAX_VALUE || ret <= Integer.MIN_VALUE) {
-            throw new OverflowException("there was an overflow while evaluating: " + this);
-        }
-        return (int) ret;
+    public T evaluate(T x, T y, T z) throws CalcException {
+        return a.evaluate(x, y, z).mul(b.evaluate(x, y, z));
     }
 
     @Override
     public String toString() {
         return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " * " + (
-            b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+                b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
     }
 
     @Override

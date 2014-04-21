@@ -9,7 +9,7 @@ public class Test {
         //        Expression3 expression =
         //            ExpressionParser.parse("2^(x^2 + 2 * x^2 + (2 + 3 + 4)* y ^3 + 10*y^(7 - 4)
         // )");
-        //        expression = Simplifier.simplify(expression);
+        //        expression = SimplifierBinary.simplify(expression);
         //        System.out.println(expression.toString());
 
         //        try {

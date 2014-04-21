@@ -1,14 +1,16 @@
 package calc.calclib;
 
 import calc.calclib.exceptions.IncorrectVariableException;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
  */
 
-public class Variable implements Expression3 {
-    final short PRIORITY = 5;
-    private char variableType;
+public class Variable<T extends CalcNumerable<T>> implements Expression3<T> {
+    @SuppressWarnings("FieldCanBeLocal")
+    private final short PRIORITY = 5;
+    private final char variableType;
 
     public char getVariableType() {
         return variableType;
@@ -19,7 +21,7 @@ public class Variable implements Expression3 {
     }
 
     @Override
-    public int evaluate(int x, int y, int z) throws IncorrectVariableException {
+    public T evaluate(T x, T y, T z) throws IncorrectVariableException {
         switch (variableType) {
             case 'x':
                 return x;

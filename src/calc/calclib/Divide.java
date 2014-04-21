@@ -1,32 +1,28 @@
 package calc.calclib;
 
 import calc.calclib.exceptions.CalcException;
-import calc.calclib.exceptions.DivideByZeroException;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
  */
 
-public class Divide extends BinaryOperations implements Expression3 {
-    final short PRIORITY = 3;
+public class Divide<T extends CalcNumerable<T>> extends BinaryOperations<T> {
+    private final short PRIORITY = 3;
 
-    public Divide(Expression3 a, Expression3 b) {
+    public Divide(Expression3<T> a, Expression3<T> b) {
         super(a, b);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) throws CalcException {
-        int right = b.evaluate(x, y, z);
-        if (right == 0) {
-            throw new DivideByZeroException("Division by zero when evaluating" + this);
-        }
-        return a.evaluate(x, y, z) / right;
+    public T evaluate(T x, T y, T z) throws CalcException {
+        return a.evaluate(x, y, z).div(b.evaluate(x, y, z));
     }
 
     @Override
     public String toString() {
         return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + " / " + (
-            b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+                b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
     }
 
     @Override

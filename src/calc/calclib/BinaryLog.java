@@ -1,8 +1,7 @@
 package calc.calclib;
 
 import calc.calclib.exceptions.CalcException;
-import calc.calclib.exceptions.IncorrectLogariphmArgument;
-import calc.calclib.exceptions.OverflowException;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
@@ -10,25 +9,27 @@ import calc.calclib.exceptions.OverflowException;
  */
 
 
-public class BinaryLog extends UnaryOperations {
-    final short PRIORITY = 4;
+public class BinaryLog<T extends CalcNumerable<T>> extends UnaryOperations<T> {
+    @SuppressWarnings("FieldCanBeLocal")
+    private final short PRIORITY = 4;
     //    final static double ln2 = 0.30102999566;
 
-    public BinaryLog(Expression3 a) {
+    public BinaryLog(Expression3<T> a) {
         super(a);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) throws CalcException {
-        double arg = (double) a.evaluate(x, y, z);
-        if (arg <= 0) {
-            throw new IncorrectLogariphmArgument();
-        }
-        long ret = 31 - Integer.numberOfLeadingZeros((int) arg);
-        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE) {
-            throw new OverflowException("there was an overflow while evaluating: " + this);
-        }
-        return (int) ret;
+    public T evaluate(T x, T y, T z) throws CalcException {
+        return a.evaluate(x, y, z).binaryLog();
+//        double arg = (double) a.evaluate(x, y, z);
+//        if (arg <= 0) {
+//            throw new IncorrectLogarithmArgument();
+//        }
+//        long ret = 31 - Integer.numberOfLeadingZeros((int) arg);
+//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE) {
+//            throw new OverflowException("there was an overflow while evaluating: " + this);
+//        }
+//        return (int) ret;
     }
 
     @Override

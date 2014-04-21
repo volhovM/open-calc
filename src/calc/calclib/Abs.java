@@ -1,21 +1,23 @@
 package calc.calclib;
 
 import calc.calclib.exceptions.CalcException;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
  */
 
-public class Abs extends UnaryOperations implements Expression3 {
-    final short PRIORITY = 4;
+public class Abs<T extends CalcNumerable<T>> extends UnaryOperations<T> {
+    @SuppressWarnings("FieldCanBeLocal")
+    private final short PRIORITY = 4;
 
-    public Abs(Expression3 a) {
+    public Abs(Expression3<T> a) {
         super(a);
     }
 
     @Override
-    public int evaluate(int x, int y, int z) throws CalcException {
-        return Math.abs(a.evaluate(x, y, z));
+    public T evaluate(T x, T y, T z) throws CalcException {
+        return a.evaluate(x, y, z).abs();
     }
 
     @Override

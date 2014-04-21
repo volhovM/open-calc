@@ -5,7 +5,7 @@
 ///**
 // * Created by volhovm on 21.04.14.
 // */
-//public class CalcBigInteger implements MyCalcCalculable<BigInteger> {
+//public class CalcBigInteger implements CalcNumerable<BigInteger> {
 //    @Override
 //    public BigInteger plus(BigInteger a, BigInteger b) {
 //        return a.add(b);

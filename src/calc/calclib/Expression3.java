@@ -1,13 +1,13 @@
 package calc.calclib;
 
 import calc.calclib.exceptions.CalcException;
-import calc.calclib.numsystems.MyCalcCalculable;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
  */
 
-public interface Expression3<T extends MyCalcCalculable> {
+public interface Expression3<T extends CalcNumerable> {
     public T evaluate(T x, T y, T z) throws CalcException;
 
     public String toString();

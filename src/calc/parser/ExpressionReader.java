@@ -6,9 +6,9 @@ package calc.parser;
  */
 
 
-public class ExpressionReader {
+class ExpressionReader {
     private int position;
-    private String string;
+    private final String string;
 
     ExpressionReader(String string) {
         this.string = string;
@@ -24,8 +24,8 @@ public class ExpressionReader {
     }
 
     private class Pair {
-        String str;
-        int value;
+        final String str;
+        final int value;
 
         private Pair(String str, int value) {
             this.str = str;
@@ -76,14 +76,20 @@ public class ExpressionReader {
         if (Character.isDigit(c)) {
             String number = "";
             int j;
-            for (j = i; j < string.length() && Character.isDigit(string.charAt(j)); j++) {
+            boolean dotFound = false;
+            for (j = i; j < string.length() && (string.charAt(j) == '.' || Character.isDigit(string.charAt(j))); j++) {
+                if (string.charAt(j) == '.') {
+                    if (!dotFound) dotFound = true;
+                    else throw new ParseException("Redundant dot in number while parsing " + string + "at " +
+                            "position " + j);
+                }
                 number += string.charAt(j);
             }
             return new Pair(number, j - 1);
         }
         //        return new Pair("EOF", 0);
         throw new ParseException("Wrong symbol '" + c + "' while parsing " + string + "at " +
-                                     "position " + position);
+                "position " + position);
     }
 
     String next() throws ParseException {

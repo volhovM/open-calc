@@ -1,16 +1,17 @@
 package calc.calclib;
 
 import calc.calclib.exceptions.CalcException;
-import calc.calclib.numsystems.MyCalcCalculable;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
  */
 
-public abstract class BinaryOperations<T extends MyCalcCalculable> implements Expression3<T> {
-    public Expression3<T> a, b;
+public abstract class BinaryOperations<T extends CalcNumerable> implements Expression3<T> {
+    final Expression3<T> a;
+    final Expression3<T> b;
 
-    protected BinaryOperations(Expression3<T> a, Expression3<T> b) {
+    BinaryOperations(Expression3<T> a, Expression3<T> b) {
         this.a = a;
         this.b = b;
     }

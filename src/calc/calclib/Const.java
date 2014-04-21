@@ -1,23 +1,26 @@
 package calc.calclib;
 
+import calc.calclib.numsystems.CalcNumerable;
+
 /**
  * @author volhovm
  */
 
-public class Const implements Expression3 {
-    final short PRIORITY = 5;
-    private final int constant;
+public class Const<T extends CalcNumerable<T>> implements Expression3<T> {
+    @SuppressWarnings("FieldCanBeLocal")
+    private final short PRIORITY = 5;
+    private final T constant;
 
-    public int getConstant() {
+    public T getConstant() {
         return constant;
     }
 
-    public Const(int a) {
+    public Const(T a) { //плохо масштабируется -- потом пофиксим
         constant = a;
     }
 
     @Override
-    public int evaluate(int x, int y, int z) {
+    public T evaluate(T x, T y, T z) {
         return constant;
     }
 
