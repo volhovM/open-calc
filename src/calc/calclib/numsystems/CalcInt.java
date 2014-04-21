@@ -3,7 +3,6 @@ package calc.calclib.numsystems;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.exceptions.DivideByZeroException;
 import calc.calclib.exceptions.IncorrectLogarithmArgument;
-import calc.calclib.exceptions.OverflowException;
 import com.sun.istack.internal.NotNull;
 
 /**
@@ -24,16 +23,16 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt> {
     @Override
     public CalcInt plus(CalcInt b) throws CalcException {
         long ret = (long) a + (long) b.a;
-        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
-            throw new OverflowException(a.toString());
+//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
+//            throw new OverflowException(a.toString());
         return new CalcInt((int) ret);
     }
 
     @Override
     public CalcInt mul(CalcInt b) {
         long ret = (long) a * (long) b.a;
-        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
-            throw new OverflowException(a.toString());
+//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
+//            throw new OverflowException(a.toString());
         return new CalcInt((int) ret);
     }
 
@@ -41,27 +40,27 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt> {
     public CalcInt div(CalcInt b) {
         if (b.a == 0) throw new DivideByZeroException(a.toString());
         long ret = (long) a / (long) b.a;
-        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
-            throw new OverflowException(a.toString());
+//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
+//            throw new OverflowException(a.toString());
         return new CalcInt((int) ret);
     }
 
     @Override
     public CalcInt sub(CalcInt b) {
         long ret = (long) a - (long) b.a;
-        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
-            throw new OverflowException(a.toString());
+//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
+//            throw new OverflowException(a.toString());
         return new CalcInt((int) ret);
     }
 
     @Override
     public CalcInt power(CalcInt b) {
-        long ret = a;
-        for (int i = 0; i < b.a - 1; i++) {
-            ret = ret * (long) b.a;
+        long ret = 1;
+        for (int i = 0; i < b.a; i++) {
+            ret = ret * a;
         }
-        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
-            throw new OverflowException(a.toString());
+//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
+//            throw new OverflowException(a.toString());
         return new CalcInt((int) ret);
     }
 
@@ -76,9 +75,9 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt> {
             throw new IncorrectLogarithmArgument();
         }
         long ret = 31 - Integer.numberOfLeadingZeros(a);
-        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE) {
-            throw new OverflowException(a.toString());
-        }
+//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE) {
+//            throw new OverflowException(a.toString());
+//        }
         return new CalcInt((int) ret);
     }
 

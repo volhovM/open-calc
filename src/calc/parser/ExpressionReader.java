@@ -77,10 +77,25 @@ class ExpressionReader {
             String number = "";
             int j;
             boolean dotFound = false;
-            for (j = i; j < string.length() && (string.charAt(j) == '.' || Character.isDigit(string.charAt(j))); j++) {
+            boolean doubleExpFound = false;
+            boolean minusAfterExpFound = false;
+            for (j = i; j < string.length() &&
+                    (string.charAt(j) == 'E' || string.charAt(j) == '.' || Character.isDigit(string.charAt(j)) || (doubleExpFound && string.charAt(j) == '-')); j++) {
                 if (string.charAt(j) == '.') {
                     if (!dotFound) dotFound = true;
-                    else throw new ParseException("Redundant dot in number while parsing " + string + "at " +
+                    else throw new ParseException("Redundant dot in number while parsing " + string + " at " +
+                            "position " + j);
+                }
+                if (string.charAt(j) == 'E') {
+                    if (!doubleExpFound) {
+                        doubleExpFound = true;
+                    } else throw new ParseException("Redundant exponent in number while parsing " + string + " at " +
+                            "position " + j);
+                }
+                if (string.charAt(j) == '-') {
+                    if (!minusAfterExpFound) {
+                        minusAfterExpFound = true;
+                    } else throw new ParseException("Redundant minus in number while parsing " + string + " at " +
                             "position " + j);
                 }
                 number += string.charAt(j);
@@ -88,7 +103,7 @@ class ExpressionReader {
             return new Pair(number, j - 1);
         }
         //        return new Pair("EOF", 0);
-        throw new ParseException("Wrong symbol '" + c + "' while parsing " + string + "at " +
+        throw new ParseException("Wrong symbol '" + c + "' while parsing " + string + " at " +
                 "position " + position);
     }
 

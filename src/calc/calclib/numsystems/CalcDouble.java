@@ -1,9 +1,7 @@
 package calc.calclib.numsystems;
 
 import calc.calclib.exceptions.CalcException;
-import calc.calclib.exceptions.DivideByZeroException;
 import calc.calclib.exceptions.IncorrectLogarithmArgument;
-import calc.calclib.exceptions.OverflowException;
 import com.sun.istack.internal.NotNull;
 
 
@@ -18,56 +16,60 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
     final
     Double a;
 
-    private CalcDouble(Double a) {
+    public CalcDouble(Double a) {
         this.a = a;
+    }
+
+    public CalcDouble(int a) {
+        this.a = (double) a;
     }
 
     @Override
     public CalcDouble plus(CalcDouble b) throws CalcException {
         Double ret = a + b.a;
-        if (ret.isInfinite()) {
-            throw new OverflowException(a.toString());
-        }
+//        if (ret.isInfinite()) {
+//            throw new OverflowException(a.toString());
+//        }
         return new CalcDouble(ret);
     }
 
     @Override
     public CalcDouble mul(CalcDouble b) {
         Double ret = a * b.a;
-        if (ret.isInfinite()) {
-            throw new OverflowException(a.toString());
-        }
+//        if (ret.isInfinite()) {
+//            throw new OverflowException(a.toString());
+//        }
         return new CalcDouble(ret);
     }
 
     @Override
     public CalcDouble div(CalcDouble b) {
-        if (b.a == 0) throw new DivideByZeroException(a.toString());
+//        if (b.a == 0 && a != 0) throw new DivideByZeroException(a.toString());
         Double ret = a / b.a;
-        if (ret.isInfinite()) {
-            throw new OverflowException(a.toString());
-        }
-        if (ret.isNaN()) {
-            throw new DivideByZeroException(a.toString());
-        }
+//        if (ret.isInfinite()) {
+//            throw new OverflowException(a.toString());
+//        }
+//        if (ret.isNaN()) {
+//            throw new DivideByZeroException(a.toString());
+//        }
         return new CalcDouble(ret);
     }
 
     @Override
     public CalcDouble sub(CalcDouble b) {
         Double ret = a - b.a;
-        if (ret.isInfinite()) {
-            throw new OverflowException(a.toString());
-        }
+//        if (ret.isInfinite()) {
+//            throw new OverflowException(a.toString());
+//        }
         return new CalcDouble(ret);
     }
 
     @Override
     public CalcDouble power(CalcDouble b) {
         Double ret = Math.pow(a, b.a);
-        if (ret.isInfinite()) {
-            throw new OverflowException(a.toString());
-        }
+//        if (ret.isInfinite()) {
+//            throw new OverflowException(a.toString());
+//        }
         return new CalcDouble(ret);
     }
 
@@ -82,9 +84,9 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
             throw new IncorrectLogarithmArgument();
         }
         Double ret = Math.log(a) / 0.693147d;
-        if (ret.isInfinite()) {
-            throw new OverflowException(a.toString());
-        }
+//        if (ret.isInfinite()) {
+//            throw new OverflowException(a.toString());
+//        }
         return new CalcDouble(ret);
     }
 
