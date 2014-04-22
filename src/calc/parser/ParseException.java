@@ -1,4 +1,4 @@
-package main.calc.parser;
+package calc.parser;
 
 import java.util.Arrays;
 

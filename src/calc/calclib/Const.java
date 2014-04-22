@@ -19,8 +19,9 @@ public class Const<T extends CalcNumerable<T>> implements Expression3<T> {
         constant = a;
     }
 
+    @SafeVarargs
     @Override
-    public T evaluate(T x, T y, T z) {
+    public final T evaluate(T... args) {
         return constant;
     }
 

@@ -1,34 +1,38 @@
-package main.calc.calclib;
+package calc.calclib;
+
+import calc.calclib.exceptions.IncorrectVariableException;
+import calc.calclib.numsystems.CalcNumerable;
 
 /**
  * @author volhovm
  */
 
-public class Variable implements Expression3 {
+public class Variable<T extends CalcNumerable<T>> implements Expression3<T> {
     final short PRIORITY = 5;
     private char variableType;
-    private int power; //TODO insert power into parser, insert methods into simplifier
 
     public char getVariableType() {
         return variableType;
     }
 
-    public Variable(String s) {
-        variableType = s.charAt(0);
-        power = 1;
+    public Variable(char a) {
+        variableType = a;
     }
 
+    @SafeVarargs
     @Override
-    public int evaluate(int x, int y, int z) {
+    public final T evaluate(T... args) { //x, y, z, a...w
         switch (variableType) {
             case 'x':
-                return x;
+                return args[0];
             case 'y':
-                return y;
+                return args[1];
             case 'z':
-                return z;
+                return args[2];
             default:
-                return 0;
+                int num = variableType - 'a' + 3;
+                if (args.length > num) return args[num];
+                else throw new IncorrectVariableException();
         }
     }
 

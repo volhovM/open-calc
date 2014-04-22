@@ -23,16 +23,16 @@ public class ExpressionParser {
     @SuppressWarnings("Convert2Diamond")
     private static <T extends CalcNumerable<T>> Expression3<T>
     firstLevel(T type, ExpressionReader reader) throws ParseException {
-        Expression3<T> ret = secondLevel(type, reader);
+        Add<T> ret = new Add<T>(secondLevel(type, reader));
         String s = reader.next();
         while (s.equals(" + ") || s.equals(" - ")) {
             reader.consume();
             switch (s) {
                 case " + ":
-                    ret = new Add<T>(ret, secondLevel(type, reader));
+                    ret.addArgument(secondLevel(type, reader));
                     break;
                 case " - ":
-                    ret = new Subtract<T>(ret, secondLevel(type, reader));
+                    ret.addArgument(new UnaryMin<T>(secondLevel(type, reader)));
                     break;
             }
             s = reader.next();
@@ -40,22 +40,22 @@ public class ExpressionParser {
                 break;
             }
         }
-        return ret;
+        return ret.size() > 1 ? ret : ret.getOnlyArgument();
     }
 
     @SuppressWarnings("Convert2Diamond")
     private static <T extends CalcNumerable<T>> Expression3<T>
     secondLevel(T type, ExpressionReader reader) throws ParseException {
-        Expression3<T> ret = thirdLevel(type, reader);
+        Multiply<T> ret = new Multiply<T>(thirdLevel(type, reader));
         String s = reader.next();
         while (s.equals(" * ") || s.equals(" / ")) {
             reader.consume();
             switch (s) {
                 case " * ":
-                    ret = new Multiply<T>(ret, thirdLevel(type, reader));
+                    ret.addArgument(thirdLevel(type, reader));
                     break;
                 case " / ":
-                    ret = new Divide<T>(ret, thirdLevel(type, reader));
+                    ret.addArgument(new Power<T>(thirdLevel(type, reader), new UnaryMin<T>(new Const<T>(type.parse("1")))));
                     break;
             }
             s = reader.next();
@@ -63,23 +63,23 @@ public class ExpressionParser {
                 break;
             }
         }
-        return ret;
+        return ret.size() > 1 ? ret : ret.getOnlyArgument();
     }
 
     @SuppressWarnings("Convert2Diamond")
     private static <T extends CalcNumerable<T>> Expression3<T>
     thirdLevel(T type, ExpressionReader reader) throws ParseException {
-        Expression3<T> ret = fourthLevel(type, reader);
+        Power<T> ret = new Power<T>(fourthLevel(type, reader));
         String s = reader.next();
         while (s.equals(" ^ ")) {
             reader.consume();
-            ret = new Power<T>(ret, thirdLevel(type, reader));
+            ret.addArgument(thirdLevel(type, reader));
             s = reader.next();
             if (s.equals("EOF")) {
                 break;
             }
         }
-        return ret;
+        return ret.size() > 1 ? ret : ret.getOnlyArgument();
     }
 
     @SuppressWarnings("Convert2Diamond")
@@ -96,7 +96,7 @@ public class ExpressionParser {
         } else if (s.length() == 1 && Character.isLowerCase(s.charAt(0)) &&
                 Character.isAlphabetic(s.charAt(0))) {
             reader.consume();
-            ret = new Variable<>(s);
+            ret = new Variable<>(s.charAt(0));
         } else if (Character.isDigit(s.charAt(0))) {
             reader.consume();
             ret = new Const<>(type.parse(s));

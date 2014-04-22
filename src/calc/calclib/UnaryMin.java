@@ -14,9 +14,10 @@ public class UnaryMin<T extends CalcNumerable<T>> extends UnaryOperations<T> {
         super(a);
     }
 
+    @SafeVarargs
     @Override
-    public T evaluate(T x, T y, T z) throws CalcException {
-        return a.evaluate(x, y, z).unaryMin();
+    public final T evaluate(T... args) throws CalcException {
+        return a.evaluate(args).unaryMin();
     }
 
     @Override
