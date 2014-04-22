@@ -7,7 +7,7 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public interface Expression3<T extends CalcNumerable> {
+public interface Expression<T extends CalcNumerable> {
     public T evaluate(T x, T y, T z) throws CalcException;
 
     public String toString();

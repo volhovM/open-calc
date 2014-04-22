@@ -11,7 +11,7 @@ public class Abs<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 4;
 
-    public Abs(Expression3<T> a) {
+    public Abs(Expression<T> a) {
         super(a);
     }
 

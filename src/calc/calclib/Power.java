@@ -9,7 +9,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class Power<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private static final short PRIORITY = 5;
 
-    public Power(Expression3<T> a, Expression3<T> b) {
+    public Power(Expression<T> a, Expression<T> b) {
         super(a, b);
     }
 

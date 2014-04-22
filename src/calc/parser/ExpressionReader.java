@@ -64,14 +64,19 @@ class ExpressionReader {
         if (c == '^') {
             return new Pair(" ^ ", i);
         }
-        if (c == 'a' && string.charAt(i + 1) == 'b') {
-            return new Pair(" abs ", i + 2);
-        }
-        if (c == 'l' && string.charAt(i + 1) == 'b') {
-            return new Pair(" lb ", i + 1);
-        }
+//        if (c == 'a' && string.charAt(i + 1) == 'b') {
+//            return new Pair(" abs ", i + 2);
+//        }
+//        if (c == 'l' && string.charAt(i + 1) == 'b') {
+//            return new Pair(" lb ", i + 1);
+//        }
         if (Character.isLowerCase(c) && Character.isAlphabetic(c)) {
-            return new Pair(c.toString(), i);
+            StringBuilder stringBuilder = new StringBuilder();
+            int j;
+            for (j = i; j < string.length() && Character.isLowerCase(string.charAt(j)) && Character.isAlphabetic(string.charAt(j)); j++) {
+                stringBuilder.append(string.charAt(j));
+            }
+            return new Pair(stringBuilder.toString(), j - 1);
         }
         if (Character.isDigit(c)) {
             String number = "";

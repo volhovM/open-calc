@@ -10,7 +10,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class Divide<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private final short PRIORITY = 3;
 
-    public Divide(Expression3<T> a, Expression3<T> b) {
+    public Divide(Expression<T> a, Expression<T> b) {
         super(a, b);
     }
 

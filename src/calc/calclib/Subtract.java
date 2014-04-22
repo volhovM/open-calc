@@ -10,7 +10,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class Subtract<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private final static short PRIORITY = 2;
 
-    public Subtract(Expression3<T> a, Expression3<T> b) {
+    public Subtract(Expression<T> a, Expression<T> b) {
         super(a, b);
     }
 

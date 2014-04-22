@@ -1,6 +1,6 @@
 package calc;
 
-import calc.calclib.Expression3;
+import calc.calclib.Expression;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcBigInteger;
 import calc.calclib.numsystems.CalcDouble;
@@ -39,7 +39,7 @@ class GenericParser {
         return null;
     }
 
-    private static <T extends CalcNumerable<T>> String evaluate(Expression3<T> expression, T type) {
+    private static <T extends CalcNumerable<T>> String evaluate(Expression<T> expression, T type) {
         StringBuilder ret = new StringBuilder();
         for (int i = -100; i <= 100; i++) {
             for (int j = -100; j <= 100; j++) {

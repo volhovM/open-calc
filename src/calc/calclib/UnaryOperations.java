@@ -7,10 +7,10 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public abstract class UnaryOperations<T extends CalcNumerable<T>> implements Expression3<T> {
-    final Expression3<T> a;
+public abstract class UnaryOperations<T extends CalcNumerable<T>> implements Expression<T> {
+    Expression<T> a;
 
-    UnaryOperations(Expression3<T> a) {
+    UnaryOperations(Expression<T> a) {
         this.a = a;
     }
 

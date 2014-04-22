@@ -7,7 +7,7 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public class Variable<T extends CalcNumerable<T>> implements Expression3<T> {
+public class Variable<T extends CalcNumerable<T>> implements Expression<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 5;
     private final char variableType;

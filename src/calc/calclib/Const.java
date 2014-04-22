@@ -6,7 +6,7 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public class Const<T extends CalcNumerable<T>> implements Expression3<T> {
+public class Const<T extends CalcNumerable<T>> implements Expression<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 5;
     private final T constant;

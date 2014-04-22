@@ -14,16 +14,16 @@ public class ExpressionParser {
     //D -> "lb" C | "abs" C | "~" C | "-" C | variable | const | "(" C ")"
 
 
-    public static <T extends CalcNumerable<T>> Expression3<T>
+    public static <T extends CalcNumerable<T>> Expression<T>
     parse(T type, String expression) throws ParseException {
         ExpressionReader reader = new ExpressionReader(expression.trim());
         return firstLevel(type, reader);
     }
 
     @SuppressWarnings("Convert2Diamond")
-    private static <T extends CalcNumerable<T>> Expression3<T>
+    private static <T extends CalcNumerable<T>> Expression<T>
     firstLevel(T type, ExpressionReader reader) throws ParseException {
-        Expression3<T> ret = secondLevel(type, reader);
+        Expression<T> ret = secondLevel(type, reader);
         String s = reader.next();
         while (s.equals(" + ") || s.equals(" - ")) {
             reader.consume();
@@ -44,9 +44,9 @@ public class ExpressionParser {
     }
 
     @SuppressWarnings("Convert2Diamond")
-    private static <T extends CalcNumerable<T>> Expression3<T>
+    private static <T extends CalcNumerable<T>> Expression<T>
     secondLevel(T type, ExpressionReader reader) throws ParseException {
-        Expression3<T> ret = thirdLevel(type, reader);
+        Expression<T> ret = thirdLevel(type, reader);
         String s = reader.next();
         while (s.equals(" * ") || s.equals(" / ")) {
             reader.consume();
@@ -67,9 +67,9 @@ public class ExpressionParser {
     }
 
     @SuppressWarnings("Convert2Diamond")
-    private static <T extends CalcNumerable<T>> Expression3<T>
+    private static <T extends CalcNumerable<T>> Expression<T>
     thirdLevel(T type, ExpressionReader reader) throws ParseException {
-        Expression3<T> ret = fourthLevel(type, reader);
+        Expression<T> ret = fourthLevel(type, reader);
         String s = reader.next();
         while (s.equals(" ^ ")) {
             reader.consume();
@@ -83,14 +83,14 @@ public class ExpressionParser {
     }
 
     @SuppressWarnings("Convert2Diamond")
-    private static <T extends CalcNumerable<T>> Expression3<T>
+    private static <T extends CalcNumerable<T>> Expression<T>
     fourthLevel(T type, ExpressionReader reader) throws ParseException {
         String s = reader.next();
-        Expression3<T> ret;
-        if (s.equals(" abs ")) {
+        Expression<T> ret;
+        if (s.equals("abs")) {
             reader.consume();
             ret = new Abs<>(fourthLevel(type, reader));
-        } else if (s.equals(" lb ")) {
+        } else if (s.equals("lb")) {
             reader.consume();
             ret = new BinaryLog<>(fourthLevel(type, reader));
         } else if (s.length() == 1 && Character.isLowerCase(s.charAt(0)) &&
@@ -114,6 +114,9 @@ public class ExpressionParser {
         } else if (s.equals(" ~ ")) {
             reader.consume();
             ret = new Not<T>(fourthLevel(type, reader));
+        } else if (Character.isAlphabetic(s.charAt(0)) && Character.isLowerCase(s.charAt(0))) {
+            reader.consume();
+            ret = new AbstractFunction<T>(s, fourthLevel(type, reader));
         } else {
             throw new ParseException("Symbol in a wrong place: '" + s + "' while parsing " +
                     reader.getString() + " at position " + reader

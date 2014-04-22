@@ -10,7 +10,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private final short PRIORITY = 3;
 
-    public Multiply(Expression3<T> a, Expression3<T> b) {
+    public Multiply(Expression<T> a, Expression<T> b) {
         super(a, b);
     }
 

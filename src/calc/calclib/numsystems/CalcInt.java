@@ -2,11 +2,12 @@ package calc.calclib.numsystems;
 
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.exceptions.DivideByZeroException;
+import calc.calclib.exceptions.FunctionNotDefined;
 import calc.calclib.exceptions.IncorrectLogarithmArgument;
 import com.sun.istack.internal.NotNull;
 
 /**
- * @author ${USERNAME}
+ * @author volhovm
  * Created on 21.04.14
  */
 
@@ -18,6 +19,25 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt> {
 
     public CalcInt(Integer a) {
         this.a = a;
+    }
+
+    @Override
+    public CalcInt id() {
+        return this;
+    }
+
+    @Override
+    public CalcInt sin() {
+        throw new FunctionNotDefined("sin in integer");
+    }
+
+    @Override
+    public CalcInt factorial() {
+        int ret = 1;
+        for (int i = 1; i <= a; i++) {
+            i *= a;
+        }
+        return new CalcInt(ret);
     }
 
     @Override
@@ -101,8 +121,18 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt> {
     }
 
     @Override
+    public Integer getInnerVariable() {
+        return a;
+    }
+
+    @Override
     public int compareTo(@NotNull CalcInt o) {
         if (o == null) throw new NullPointerException("comparing null objects");
         return a.compareTo(o.a);
+    }
+
+    @Override
+    public <Z extends Number> CalcInt getInstance(Z a) {
+        return new CalcInt(a.intValue());
     }
 }

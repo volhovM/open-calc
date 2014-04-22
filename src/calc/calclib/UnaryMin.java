@@ -10,7 +10,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class UnaryMin<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     private final short PRIORITY = 4;
 
-    public UnaryMin(Expression3<T> a) {
+    public UnaryMin(Expression<T> a) {
         super(a);
     }
 

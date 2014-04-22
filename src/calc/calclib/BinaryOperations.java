@@ -7,11 +7,11 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public abstract class BinaryOperations<T extends CalcNumerable> implements Expression3<T> {
-    final Expression3<T> a;
-    final Expression3<T> b;
+public abstract class BinaryOperations<T extends CalcNumerable> implements Expression<T> {
+    final Expression<T> a;
+    final Expression<T> b;
 
-    BinaryOperations(Expression3<T> a, Expression3<T> b) {
+    BinaryOperations(Expression<T> a, Expression<T> b) {
         this.a = a;
         this.b = b;
     }

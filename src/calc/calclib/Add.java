@@ -10,7 +10,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class Add<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private final short PRIORITY = 2;
 
-    public Add(Expression3<T> a, Expression3<T> b) {
+    public Add(Expression<T> a, Expression<T> b) {
         super(a, b);
     }
 

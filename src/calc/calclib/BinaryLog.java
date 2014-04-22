@@ -14,7 +14,7 @@ public class BinaryLog<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     private final short PRIORITY = 4;
     //    final static double ln2 = 0.30102999566;
 
-    public BinaryLog(Expression3<T> a) {
+    public BinaryLog(Expression<T> a) {
         super(a);
     }
 

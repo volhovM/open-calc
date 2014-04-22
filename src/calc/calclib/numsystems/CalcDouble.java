@@ -25,6 +25,20 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
     }
 
     @Override
+    public CalcDouble sin() {
+        return new CalcDouble(Math.sin(a));
+    }
+
+    @Override
+    public CalcDouble factorial() {
+        int ret = 1;
+        for (int i = 1; i <= a; i++) {
+            ret *= i;
+        }
+        return new CalcDouble(ret);
+    }
+
+    @Override
     public CalcDouble plus(CalcDouble b) throws CalcException {
         Double ret = a + b.a;
 //        if (ret.isInfinite()) {
@@ -110,8 +124,14 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
     }
 
     @Override
+    public CalcDouble id() {
+        return this;
+    }
+
+    @Override
     public int compareTo(@NotNull CalcDouble o) {
         if (o == null) throw new NullPointerException("comparing null objects");
         return a.compareTo(o.a);
     }
+
 }

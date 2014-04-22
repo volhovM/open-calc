@@ -10,7 +10,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class Not<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     private final short PRIORITY = 4;
 
-    public Not(Expression3<T> a) {
+    public Not(Expression<T> a) {
         super(a);
     }
 
