@@ -6,6 +6,8 @@ import calc.calclib.numsystems.CalcDouble;
 import calc.calclib.numsystems.CalcInt;
 import calc.calclib.numsystems.CalcNumerable;
 
+import java.util.Arrays;
+
 /**
  * @author volhovm
  */
@@ -25,21 +27,36 @@ public class ExpressionParser {
         return firstLevel(type, reader);
     }
 
-
     public static Number
-    parseAndEval(String type, String expression, Number a, Number b, Number c) throws ParseException {
+    parseAndEval(String type, String expression, Number... args) throws ParseException {
         switch (type) {
             case "-i":
                 Expression<CalcInt> expI = ExpressionParser.parse(new CalcInt(0), expression);
                 return expI.evaluate(
-                        new CalcInt(a.intValue()), new CalcInt(b.intValue()), new CalcInt(c.intValue())).toInteger();
+                        Arrays.asList(args)
+                                .stream()
+                                .map(a -> new CalcInt(a.intValue()))
+                                .toArray(CalcInt[]::new)
+                )
+                        .toInteger();
             case "-d":
                 Expression<CalcDouble> expD = ExpressionParser.parse(new CalcDouble(0), expression);
                 return expD.evaluate(
-                        new CalcDouble(a.doubleValue()), new CalcDouble(b.doubleValue()), new CalcDouble(c.doubleValue())).toDouble();
+                        Arrays.asList(args)
+                                .stream()
+                                .map(a -> new CalcDouble(a.doubleValue()))
+                                .toArray(CalcDouble[]::new)
+                )
+                        .toDouble();
             case "-bi":
-                Expression<CalcBigInteger> exp = ExpressionParser.parse(new CalcBigInteger(0), expression);
-                return exp.evaluate(new CalcBigInteger(a.intValue()), new CalcBigInteger(b.intValue()), new CalcBigInteger(c.intValue())).toBigInt();
+                Expression<CalcBigInteger> expBI = ExpressionParser.parse(new CalcBigInteger(0), expression);
+                return expBI.evaluate(
+                        Arrays.asList(args)
+                                .stream()
+                                .map(a -> new CalcBigInteger(a.intValue()))
+                                .toArray(CalcBigInteger[]::new)
+                )
+                        .toBigInt();
             default:
                 throw new ParseException("Wrong type: " + type);
         }
