@@ -8,7 +8,7 @@ import com.sun.istack.internal.NotNull;
  * @author volhovm
  */
 
-public interface Expression3<T extends CalcNumerable> {
+public interface Expression<T extends CalcNumerable> {
     public T evaluate(@NotNull T... args) throws CalcException;
 
     public String toString();

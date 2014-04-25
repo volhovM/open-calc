@@ -98,8 +98,8 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
     }
 
     @Override
-    public T evaluate(T x, T y, T z) throws CalcException {
-        return functionType.apply(a.evaluate(x, y, z));
+    public T evaluate(T... args) throws CalcException {
+        return functionType.apply(a.evaluate(args));
     }
 
     @Override

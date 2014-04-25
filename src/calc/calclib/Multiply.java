@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private final short PRIORITY = 3;
 
-    public Multiply(Expression3<T>... expressions) {
+    public Multiply(Expression<T>... expressions) {
         super(expressions);
     }
 
@@ -20,7 +20,7 @@ public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     @Override
     public final T evaluate(T... args) throws CalcException {
         return arguments.stream()
-                .map((Expression3<T> a) -> a.evaluate(args))
+                .map((Expression<T> a) -> a.evaluate(args))
                 .reduce((a, b) -> a.mul(b))
                 .get();
     }
@@ -28,7 +28,7 @@ public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     @Override
     public String toString() {
         return arguments.stream()
-                .map((Expression3<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
+                .map((Expression<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
                         "(" + x.toString() + ")")
                 .collect(Collectors.joining(" * "));
     }

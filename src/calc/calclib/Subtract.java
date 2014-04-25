@@ -8,11 +8,12 @@ import java.util.stream.Collectors;
 /**
  * @author volhovm
  */
-
+@SuppressWarnings("UnusedDeclaration")
+@Deprecated
 public class Subtract<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private final static short PRIORITY = 2;
 
-    public Subtract(Expression3<T>... expressions) {
+    public Subtract(Expression<T>... expressions) {
         super(expressions);
     }
 
@@ -20,7 +21,7 @@ public class Subtract<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     @Override
     public final T evaluate(T... args) throws CalcException {
         return arguments.stream()
-                .map((Expression3<T> a) -> a.evaluate(args))
+                .map((Expression<T> a) -> a.evaluate(args))
                 .reduce((a, b) -> a.sub(b))
                 .get();
     }
@@ -28,7 +29,7 @@ public class Subtract<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     @Override
     public String toString() {
         return arguments.stream()
-                .map((Expression3<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
+                .map((Expression<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
                         "(" + x.toString() + ")")
                 .collect(Collectors.joining(" - "));
     }
