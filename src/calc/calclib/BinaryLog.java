@@ -12,24 +12,15 @@ import calc.calclib.numsystems.CalcNumerable;
 public class BinaryLog<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 4;
-    //    final static double ln2 = 0.30102999566;
 
     public BinaryLog(Expression<T> a) {
         super(a);
     }
 
+    @SafeVarargs
     @Override
-    public T evaluate(T x, T y, T z) throws CalcException {
-        return a.evaluate(x, y, z).binaryLog();
-//        double arg = (double) a.evaluate(x, y, z);
-//        if (arg <= 0) {
-//            throw new IncorrectLogarithmArgument();
-//        }
-//        long ret = 31 - Integer.numberOfLeadingZeros((int) arg);
-//        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE) {
-//            throw new OverflowException("there was an overflow while evaluating: " + this);
-//        }
-//        return (int) ret;
+    public final T evaluate(T... args) throws CalcException {
+        return a.evaluate(args).binaryLog();
     }
 
     @Override

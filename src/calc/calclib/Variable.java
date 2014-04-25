@@ -7,7 +7,7 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public class Variable<T extends CalcNumerable<T>> implements Expression<T> {
+public class Variable<T extends CalcNumerable<T>> implements Expression3<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 5;
     private final char variableType;
@@ -16,21 +16,23 @@ public class Variable<T extends CalcNumerable<T>> implements Expression<T> {
         return variableType;
     }
 
-    public Variable(String s) {
-        variableType = s.charAt(0);
+    public Variable(char a) {
+        variableType = a;
     }
 
     @Override
-    public T evaluate(T x, T y, T z) throws IncorrectVariableException {
+    public final T evaluate(T... args) { //x, y, z, a...w
         switch (variableType) {
             case 'x':
-                return x;
+                return args[0];
             case 'y':
-                return y;
+                return args[1];
             case 'z':
-                return z;
+                return args[2];
             default:
-                throw new IncorrectVariableException(variableType);
+                int num = variableType - 'a' + 3;
+                if (args.length > num) return args[num];
+                else throw new IncorrectVariableException();
         }
     }
 

@@ -3,25 +3,33 @@ package calc.calclib;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcNumerable;
 
+import java.util.stream.Collectors;
+
 /**
  * @author volhovm
  */
 public class Power<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private static final short PRIORITY = 5;
 
-    public Power(Expression<T> a, Expression<T> b) {
-        super(a, b);
+    public Power(Expression3<T>... expressions) {
+        super(expressions);
     }
 
+    @SafeVarargs
     @Override
-    public T evaluate(T x, T y, T z) throws CalcException {
-        return a.evaluate(x, y, z).power(b.evaluate(x, y, z));
+    public final T evaluate(T... args) throws CalcException {
+        return arguments.stream()
+                .map((Expression3<T> a) -> a.evaluate(args))
+                .reduce((a, b) -> a.power(b))
+                .get();
     }
 
     @Override
     public String toString() {
-        return (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")") + getOP() + (
-                b.getPriority() >= PRIORITY ? b.toString() : "(" + b.toString() + ")");
+        return arguments.stream()
+                .map((Expression3<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
+                        "(" + x.toString() + ")")
+                .collect(Collectors.joining(" ^ "));
     }
 
     private String getOP() {

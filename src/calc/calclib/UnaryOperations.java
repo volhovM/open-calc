@@ -2,6 +2,7 @@ package calc.calclib;
 
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcNumerable;
+import com.sun.istack.internal.NotNull;
 
 /**
  * @author volhovm
@@ -15,5 +16,5 @@ public abstract class UnaryOperations<T extends CalcNumerable<T>> implements Exp
     }
 
     @Override
-    public abstract T evaluate(T x, T y, T z) throws CalcException;
+    public abstract T evaluate(@NotNull T... args) throws CalcException;
 }
