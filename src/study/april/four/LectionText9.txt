@@ -1,0 +1,2 @@
+Today is actually 24.04.2014
+JavaScript/ECMAScript 5.1 -- last stable version

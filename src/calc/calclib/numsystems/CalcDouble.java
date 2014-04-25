@@ -4,6 +4,8 @@ import calc.calclib.exceptions.CalcException;
 import calc.calclib.exceptions.IncorrectLogarithmArgument;
 import com.sun.istack.internal.NotNull;
 
+import java.math.BigInteger;
+
 
 /**
  * @author ${USERNAME}
@@ -13,7 +15,6 @@ import com.sun.istack.internal.NotNull;
 public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDouble> {
     private
     @NotNull
-    final
     Double a;
 
     public CalcDouble(Double a) {
@@ -22,20 +23,6 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
 
     public CalcDouble(int a) {
         this.a = (double) a;
-    }
-
-    @Override
-    public CalcDouble sin() {
-        return new CalcDouble(Math.sin(a));
-    }
-
-    @Override
-    public CalcDouble factorial() {
-        int ret = 1;
-        for (int i = 1; i <= a; i++) {
-            ret *= i;
-        }
-        return new CalcDouble(ret);
     }
 
     @Override
@@ -124,7 +111,29 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
     }
 
     @Override
-    public CalcDouble id() {
+    public CalcDouble changeArg(Number arg) {
+        a = arg.doubleValue();
+        return this;
+    }
+
+    @Override
+    public CalcNumerable<CalcDouble> id() {
+        return this;
+    }
+
+    @Override
+    public <Z extends Convertible> CalcDouble getInstance(Z a) {
+        return null;
+    }
+
+    @Override
+    public String getType() {
+        return "Double";
+    }
+
+    @Override
+    public CalcDouble replace(CalcNumerable a) {
+        this.a = a.toDouble();
         return this;
     }
 
@@ -134,4 +143,18 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
         return a.compareTo(o.a);
     }
 
+    @Override
+    public Integer toInteger() {
+        return a.intValue();
+    }
+
+    @Override
+    public Double toDouble() {
+        return a;
+    }
+
+    @Override
+    public BigInteger toBigInt() {
+        return new BigInteger(a.toString());
+    }
 }

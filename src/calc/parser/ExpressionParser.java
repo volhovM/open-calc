@@ -1,6 +1,9 @@
 package calc.parser;
 
 import calc.calclib.*;
+import calc.calclib.numsystems.CalcBigInteger;
+import calc.calclib.numsystems.CalcDouble;
+import calc.calclib.numsystems.CalcInt;
 import calc.calclib.numsystems.CalcNumerable;
 
 /**
@@ -12,13 +15,53 @@ public class ExpressionParser {
     //B -> C {("*" | "/") C}
     //C -> D ["^" (D | C)]
     //D -> "lb" C | "abs" C | "~" C | "-" C | variable | const | "(" C ")"
-
+    private ExpressionParser() {
+    }
 
     public static <T extends CalcNumerable<T>> Expression<T>
     parse(T type, String expression) throws ParseException {
         ExpressionReader reader = new ExpressionReader(expression.trim());
         return firstLevel(type, reader);
     }
+
+    public static Number
+    parseAndEval(String type, String expression, Number a, Number b, Number c) throws ParseException {
+        switch (type) {
+            case "-i":
+                Expression<CalcInt> expI = ExpressionParser.parse(new CalcInt(0), expression);
+                return expI.evaluate(
+                        new CalcInt(a.intValue()), new CalcInt(b.intValue()), new CalcInt(c.intValue())).toInteger();
+            case "-d":
+                Expression<CalcDouble> expD = ExpressionParser.parse(new CalcDouble(0), expression);
+                return expD.evaluate(
+                        new CalcDouble(a.doubleValue()), new CalcDouble(b.doubleValue()), new CalcDouble(c.doubleValue())).toDouble();
+            case "-bi":
+                Expression<CalcBigInteger> exp = ExpressionParser.parse(new CalcBigInteger(0), expression);
+                return exp.evaluate(new CalcBigInteger(a.intValue()), new CalcBigInteger(b.intValue()), new CalcBigInteger(c.intValue())).toBigInt();
+            default:
+                throw new ParseException("Wrong type: " + type);
+        }
+    }
+
+    public static Expression parse(String type, String expression) throws ParseException {
+        switch (type) {
+            case "-i":
+                return ExpressionParser.parse(new CalcInt(0), expression);
+            case "-d":
+                return ExpressionParser.parse(new CalcDouble(0), expression);
+            case "-bi":
+                return ExpressionParser.parse(new CalcBigInteger(0), expression);
+            default:
+                throw new ParseException("Wrong type: " + type);
+        }
+    }
+
+
+//    public static <T extends CalcNumerable<T>> Expression<T>
+//    parseString(String type, String expression) throws ParseException {
+
+//        return null;
+//    }
 
     @SuppressWarnings("Convert2Diamond")
     private static <T extends CalcNumerable<T>> Expression<T>
@@ -116,7 +159,7 @@ public class ExpressionParser {
             ret = new Not<T>(fourthLevel(type, reader));
         } else if (Character.isAlphabetic(s.charAt(0)) && Character.isLowerCase(s.charAt(0))) {
             reader.consume();
-            ret = new AbstractFunction<T>(s, fourthLevel(type, reader));
+            ret = new AbstractFunction<T>(s, type, fourthLevel(type, reader));
         } else {
             throw new ParseException("Symbol in a wrong place: '" + s + "' while parsing " +
                     reader.getString() + " at position " + reader

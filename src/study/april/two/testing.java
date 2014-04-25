@@ -15,7 +15,6 @@ public class testing {
 
         //copy(new ArrayList<String>(), new ArrayList<Integer>());
         swapImpl(new ArrayList<Integer>(), 2, 3);
-
     }
 
     static public <T> void dump(T[] a, Collection<T> c) {
@@ -26,7 +25,7 @@ public class testing {
         b.add(a.get(0));
     }
 
-    static <T> void swapImpl(List<T> list, int i, int j) {
+    private static <T> void swapImpl(List<T> list, int i, int j) {
         T temp = list.get(i);
         list.set(i, list.get(j));
         list.set(j, temp);

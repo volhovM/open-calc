@@ -1,14 +1,13 @@
 package calc.calclib.numsystems;
 
 import calc.calclib.exceptions.DivideByZeroException;
-import calc.calclib.exceptions.FunctionNotDefined;
 import com.sun.istack.internal.NotNull;
 
 import java.math.BigInteger;
 
 /**
  * @author volhovm
- * Created on 21.04.14
+ *         Created on 21.04.14
  */
 public class CalcBigInteger implements CalcNumerable<CalcBigInteger>, Comparable<CalcBigInteger> {
     private
@@ -22,21 +21,6 @@ public class CalcBigInteger implements CalcNumerable<CalcBigInteger>, Comparable
     public CalcBigInteger(Integer a) {
         this.a = new BigInteger(String.valueOf(a));
     }
-
-    @Override
-    public CalcBigInteger sin() {
-        throw new FunctionNotDefined();
-    }
-
-    @Override
-    public CalcBigInteger factorial() {
-        BigInteger ret = BigInteger.ONE;
-        for (int i = 1; a.compareTo(new BigInteger(String.valueOf(i))) <= 0; i++) {
-            ret = ret.multiply(new BigInteger(String.valueOf(i)));
-        }
-        return new CalcBigInteger(ret);
-    }
-
 
     //no overflow i guess
     @Override
@@ -114,8 +98,44 @@ public class CalcBigInteger implements CalcNumerable<CalcBigInteger>, Comparable
     }
 
     @Override
+    public CalcBigInteger changeArg(Number arg) {
+        a = (BigInteger) arg;
+        return this;
+    }
+
+    @Override
     public CalcBigInteger id() {
         return this;
     }
 
+    @Override
+    public <Z extends Convertible> CalcBigInteger getInstance(Z a) {
+        return null;
+    }
+
+    @Override
+    public String getType() {
+        return "BigInteger";
+    }
+
+    @Override
+    public CalcBigInteger replace(CalcNumerable a) {
+        this.a = a.toBigInt();
+        return this;
+    }
+
+    @Override
+    public Integer toInteger() {
+        return a.intValue();
+    }
+
+    @Override
+    public Double toDouble() {
+        return a.doubleValue();
+    }
+
+    @Override
+    public BigInteger toBigInt() {
+        return a;
+    }
 }

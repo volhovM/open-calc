@@ -8,7 +8,7 @@ public class FunctionNotDefined extends CalcException {
     private final static String shortMsg = "foo isn't defined";
 
     public FunctionNotDefined() {
-        super("Wrong function definition: function is not present. ");
+        super("Wrong function definition: ");
     }
 
     public FunctionNotDefined(String fooname) {
