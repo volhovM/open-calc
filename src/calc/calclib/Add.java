@@ -3,6 +3,7 @@ package calc.calclib;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcNumerable;
 
+import java.util.HashSet;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +18,7 @@ public class Add<T extends CalcNumerable<T>> extends BinaryOperations<T> {
         super(expressions);
     }
 
+    @SafeVarargs
     @Override
     public final T evaluate(T... args) throws CalcException {
         return arguments.stream()
@@ -36,5 +38,21 @@ public class Add<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     @Override
     public short getPriority() {
         return PRIORITY;
+    }
+
+    @Override
+    public Expression<T> simplify() {
+        for (int i = 0; i < arguments.size(); i++) {
+            arguments.set(i, arguments.get(i).simplify());
+        }
+        for (int i = 0; i < arguments.size(); i++) {
+            for (int j = i; j < arguments.size(); j++) {
+                if (arguments.size() > 1) {
+                    Expression<T> x = arguments.get(i);
+                    Expression<T> y = arguments.get(j);
+
+                }
+            }
+        }
     }
 }

@@ -32,4 +32,14 @@ public class BinaryLog<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     public short getPriority() {
         return PRIORITY;
     }
+
+    @Override
+    public Expression<T> simplify() {
+        a = a.simplify();
+        if (a instanceof Const) {
+            ((Const) a).constant = ((Const) a).constant.binaryLog();
+            return a;
+        }
+        return this;
+    }
 }

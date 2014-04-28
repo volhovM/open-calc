@@ -15,6 +15,10 @@ public interface Expression<T extends CalcNumerable> {
 
     public short getPriority();
 
+    public Expression<T> simplify();
+
+    public boolean equals(Expression<T> a);
+
     //test
 //    public static boolean equalsExp(Expression3 expressionOne, Expression3 expressionTwo) {
 //        if (expressionOne == null || expressionTwo == null) {

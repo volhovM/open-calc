@@ -6,6 +6,7 @@ import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.stream.Stream;
 
 /**
@@ -49,6 +50,17 @@ public abstract class BinaryOperations<T extends CalcNumerable> implements Expre
         return arguments.size();
     }
 
+    @Override
+    public boolean equals(Expression<T> a) {
+        if (a instanceof BinaryOperations) {
+            if (!(a instanceof Power)) {
+                return new HashSet<>(this.arguments).equals(new HashSet<>(((BinaryOperations<T>) a).arguments));
+            } else {
+                //????? FIXME
+            }
+        }
+        return false;
+    }
 
     public Stream<Expression<T>> stream() {
         return arguments.stream();

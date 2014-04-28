@@ -85,7 +85,7 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
     private final short PRIORITY = 4;
 
     private Functions functionType;
-    private final Expression<T> a;
+    private Expression<T> a;
 
     public AbstractFunction(String s, T type, Expression<T> a) {
         try {
@@ -99,8 +99,9 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
         this.a = a;
     }
 
+    @SafeVarargs
     @Override
-    public T evaluate(T... args) throws CalcException {
+    public final T evaluate(T... args) throws CalcException {
         return functionType.apply(a.evaluate(args));
     }
 
@@ -112,6 +113,21 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
     @Override
     public short getPriority() {
         return PRIORITY;
+    }
+
+    @Override
+    public Expression<T> simplify() {
+        a = a.simplify();
+        if (a instanceof Const) {
+            evaluate();
+        }
+        return this;
+    }
+
+    @Override
+    public boolean equals(Expression<T> a) {
+        return a instanceof AbstractFunction && this.a.equals(a)
+                && this.functionType.equals(((AbstractFunction) a).functionType);
     }
 
 }

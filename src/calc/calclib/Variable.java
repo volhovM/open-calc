@@ -49,4 +49,9 @@ public class Variable<T extends CalcNumerable<T>> implements Expression<T> {
     public short getPriority() {
         return PRIORITY;
     }
+
+    @Override
+    public Expression<T> simplify() {
+        return this;
+    }
 }

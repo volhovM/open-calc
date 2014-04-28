@@ -17,4 +17,9 @@ public abstract class UnaryOperations<T extends CalcNumerable<T>> implements Exp
 
     @Override
     public abstract T evaluate(@NotNull T... args) throws CalcException;
+
+    @Override
+    public boolean equals(Expression<T> a) {
+        return (a.getClass() == this.getClass() && this.a.equals(a));
+    }
 }

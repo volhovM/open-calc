@@ -9,7 +9,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public class Const<T extends CalcNumerable<T>> implements Expression<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 5;
-    private final T constant;
+    T constant;
 
     public T getConstant() {
         return constant;
@@ -33,5 +33,10 @@ public class Const<T extends CalcNumerable<T>> implements Expression<T> {
     @Override
     public short getPriority() {
         return PRIORITY;
+    }
+
+    @Override
+    public Expression<T> simplify() {
+        return this;
     }
 }
