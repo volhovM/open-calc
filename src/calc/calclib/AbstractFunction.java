@@ -88,13 +88,15 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
     private final Expression<T> a;
 
     public AbstractFunction(String s, T type, Expression<T> a) {
-        if (Functions.valueOf(s) != null) {
+        try {
             functionType = Functions.valueOf(s);
-            functionType.init();
-            if (!functionType.isDefined(type))
-                throw new FunctionNotDefined(s + " is not defined for type '" + type.getType() + "'");
-            this.a = a;
-        } else throw new FunctionNotDefined(s + " is not defined properly");
+        } catch (IllegalArgumentException exc) {
+            throw new FunctionNotDefined("'" + s + "' is not defined properly");
+        }
+        functionType.init();
+        if (!functionType.isDefined(type))
+            throw new FunctionNotDefined("'" + s + "' is not defined for type '" + type.getType() + "'");
+        this.a = a;
     }
 
     @Override

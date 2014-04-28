@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class Power<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private static final short PRIORITY = 5;
 
+    @SafeVarargs
     public Power(Expression<T>... expressions) {
         super(expressions);
     }

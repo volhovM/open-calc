@@ -9,8 +9,9 @@ import java.util.*;
 /**
  * Created by Niyaz Nigmatullin on 4/21/14.
  */
+
 public class GenericParserTest {
-    static final Random RNG = new Random(58L);
+    private static final Random RNG = new Random(58L);
 
     public static void main(String[] args) {
         {
@@ -72,7 +73,7 @@ public class GenericParserTest {
         }
     }
 
-    static boolean checkTest(Test test) {
+    private static boolean checkTest(Test test) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         String sType = new String[]{"-i", "-d", "-bi"}[test.type];
@@ -171,6 +172,11 @@ public class GenericParserTest {
     }
 
     static class Generator {
+        final int type;
+
+        public Generator(int type) {
+            this.type = type;
+        }
 
         static Object[][] add(Object[][] x, Object[][] y) {
             Object[][] ret = new Object[x.length][];
@@ -192,7 +198,6 @@ public class GenericParserTest {
             }
             return ret;
         }
-
 
         static Object[][] subtract(Object[][] x, Object[][] y) {
             Object[][] ret = new Object[x.length][];
@@ -262,7 +267,6 @@ public class GenericParserTest {
             return ret;
         }
 
-
         static Object[][] negate(Object[][] z) {
             Object[][] ret = new Object[z.length][];
             for (int i = 0; i < z.length; i++) {
@@ -304,10 +308,12 @@ public class GenericParserTest {
             return ret;
         }
 
-        int type;
-
-        public Generator(int type) {
-            this.type = type;
+        static BigInteger randomBigInteger() {
+            StringBuilder sb = new StringBuilder();
+            if (RNG.nextBoolean()) sb.append('-');
+            int len = RNG.nextInt(50) + 1;
+            for (int i = 0; i < len; i++) sb.append(RNG.nextInt(10));
+            return new BigInteger(sb.toString());
         }
 
         Test genExpression(int depth, int coefficient) {
@@ -384,20 +390,12 @@ public class GenericParserTest {
         boolean makeNewBranch(int depth, int coefficient) {
             return RNG.nextInt(depth + coefficient) < coefficient;
         }
-
-        static BigInteger randomBigInteger() {
-            StringBuilder sb = new StringBuilder();
-            if (RNG.nextBoolean()) sb.append('-');
-            int len = RNG.nextInt(50) + 1;
-            for (int i = 0; i < len; i++) sb.append(RNG.nextInt(10));
-            return new BigInteger(sb.toString());
-        }
     }
 
     static class Test {
+        final Object[][] answer;
+        final int type;
         String expr;
-        Object[][] answer;
-        int type;
 
         Test(String expr, Object[][] answer, int type) {
             this.expr = expr;

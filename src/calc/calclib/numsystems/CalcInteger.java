@@ -9,74 +9,79 @@ import java.math.BigInteger;
 
 /**
  * @author volhovm
- * Created on 21.04.14
+ *         Created on 21.04.14
  */
 
-public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt>, Convertible {
+public class CalcInteger implements CalcNumerable<CalcInteger>, Comparable<CalcInteger>, Convertible {
     @NotNull
     private
     Integer a;
 
-    public CalcInt(Integer a) {
+    public CalcInteger(Integer a) {
         this.a = a;
     }
 
     @Override
-    public CalcInt id() {
+    public CalcInteger id() {
         return this;
     }
 
     @Override
-    public CalcInt plus(CalcInt b) throws CalcException {
+    public CalcInteger plus(CalcInteger b) throws CalcException {
         long ret = (long) a + (long) b.a;
 //        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
 //            throw new OverflowException(a.toString());
-        return new CalcInt((int) ret);
+        return new CalcInteger((int) ret);
     }
 
     @Override
-    public CalcInt mul(CalcInt b) {
+    public CalcInteger mul(CalcInteger b) {
         long ret = (long) a * (long) b.a;
 //        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
 //            throw new OverflowException(a.toString());
-        return new CalcInt((int) ret);
+        return new CalcInteger((int) ret);
     }
 
     @Override
-    public CalcInt div(CalcInt b) {
+    public CalcInteger div(CalcInteger b) {
         if (b.a == 0) throw new DivideByZeroException(a.toString());
         long ret = (long) a / (long) b.a;
 //        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
 //            throw new OverflowException(a.toString());
-        return new CalcInt((int) ret);
+        return new CalcInteger((int) ret);
     }
 
     @Override
-    public CalcInt sub(CalcInt b) {
+    public CalcInteger sub(CalcInteger b) {
         long ret = (long) a - (long) b.a;
 //        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
 //            throw new OverflowException(a.toString());
-        return new CalcInt((int) ret);
+        return new CalcInteger((int) ret);
     }
 
     @Override
-    public CalcInt power(CalcInt b) {
+    public CalcInteger power(CalcInteger b) {
+        if (b.a < 0) { //wow, such crutch
+            int prevA = a;
+            a = 1;
+            return div(new CalcInteger(prevA).power(b.unaryMin()));
+        }
         long ret = 1;
         for (int i = 0; i < b.a; i++) {
             ret = ret * a;
         }
 //        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE)
 //            throw new OverflowException(a.toString());
-        return new CalcInt((int) ret);
+        return new CalcInteger((int) ret);
     }
 
     @Override
-    public CalcInt abs() {
-        return new CalcInt(Math.abs(a));
+    public CalcInteger abs() {
+        return new CalcInteger(Math.abs(a));
     }
 
     @Override
-    public CalcInt binaryLog() {
+    public CalcInteger binaryLog() {
         if (a <= 0) {
             throw new IncorrectLogarithmArgument();
         }
@@ -84,22 +89,22 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt>, Con
 //        if (ret > Integer.MAX_VALUE || ret < Integer.MIN_VALUE) {
 //            throw new OverflowException(a.toString());
 //        }
-        return new CalcInt((int) ret);
+        return new CalcInteger((int) ret);
     }
 
     @Override
-    public CalcInt not() {
-        return new CalcInt(~a);
+    public CalcInteger not() {
+        return new CalcInteger(~a);
     }
 
     @Override
-    public CalcInt unaryMin() {
-        return new CalcInt(-a);
+    public CalcInteger unaryMin() {
+        return new CalcInteger(-a);
     }
 
     @Override
-    public CalcInt parse(String s) {
-        return new CalcInt(Integer.parseInt(s));
+    public CalcInteger parse(String s) {
+        return new CalcInteger(Integer.parseInt(s));
     }
 
     public String toString() {
@@ -107,7 +112,7 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt>, Con
     }
 
     @Override
-    public int compareTo(@NotNull CalcInt o) {
+    public int compareTo(@NotNull CalcInteger o) {
         if (o == null) throw new NullPointerException("comparing null objects");
         return a.compareTo(o.a);
     }
@@ -115,14 +120,14 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt>, Con
     /////////////////////////////////////////////
 
     @Override
-    public CalcInt changeArg(Number arg) {
+    public CalcInteger changeArg(Number arg) {
         a = (Integer) arg;
         return this;
     }
 
     @Override
-    public <Z extends Convertible> CalcInt getInstance(Z a) {
-        return new CalcInt(a.toInteger());
+    public <Z extends Convertible> CalcInteger getInstance(Z a) {
+        return new CalcInteger(a.toInteger());
     }
 
     @Override
@@ -131,11 +136,10 @@ public class CalcInt implements CalcNumerable<CalcInt>, Comparable<CalcInt>, Con
     }
 
     @Override
-    public CalcInt replace(CalcNumerable a) {
+    public CalcInteger replace(CalcNumerable a) {
         this.a = a.toInteger();
         return this;
     }
-
 
     @Override
     public Integer toInteger() {

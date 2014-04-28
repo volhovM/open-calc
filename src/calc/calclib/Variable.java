@@ -20,19 +20,23 @@ public class Variable<T extends CalcNumerable<T>> implements Expression<T> {
         variableType = a;
     }
 
+    @SafeVarargs
     @Override
     public final T evaluate(T... args) { //x, y, z, a...w
         switch (variableType) {
             case 'x':
+                if (args.length < 1 || args[0] == null) throw new IncorrectVariableException('x');
                 return args[0];
             case 'y':
+                if (args.length < 2 || args[1] == null) throw new IncorrectVariableException('y');
                 return args[1];
             case 'z':
+                if (args.length < 3 || args[2] == null) throw new IncorrectVariableException('z');
                 return args[2];
             default:
                 int num = variableType - 'a' + 3;
-                if (args.length > num) return args[num];
-                else throw new IncorrectVariableException();
+                if (args.length > num && args[num] != null) return args[num];
+                else throw new IncorrectVariableException(variableType);
         }
     }
 

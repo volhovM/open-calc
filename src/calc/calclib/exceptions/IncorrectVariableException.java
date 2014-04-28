@@ -19,7 +19,7 @@ public class IncorrectVariableException extends CalcException {
     }
 
     public IncorrectVariableException(char constant) {
-        super("There was an incorrect variable: " + constant + ". Only x, y, z allowed.");
+        super("Incorrect variable or not initialized: " + constant + "");
     }
 
     public IncorrectVariableException(String s) {

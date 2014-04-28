@@ -9,6 +9,7 @@ package calc.parser;
 class ExpressionReader {
     private int position;
     private final String string;
+    private Pair tempPair = null;
 
     ExpressionReader(String string) {
         this.string = string;
@@ -85,22 +86,23 @@ class ExpressionReader {
             boolean doubleExpFound = false;
             boolean minusAfterExpFound = false;
             for (j = i; j < string.length() &&
-                    (string.charAt(j) == 'E' || string.charAt(j) == '.' || Character.isDigit(string.charAt(j)) || (doubleExpFound && string.charAt(j) == '-')); j++) {
+                    (Character.isDigit(string.charAt(j)) || (doubleExpFound && string.charAt(j) == '-')
+                            || string.charAt(j) == 'e' || string.charAt(j) == 'E' || string.charAt(j) == '.'); j++) {
                 if (string.charAt(j) == '.') {
                     if (!dotFound) dotFound = true;
-                    else throw new ParseException("Redundant dot in number while parsing " + string + " at " +
+                    else throw new ParseException("Redundant dot in number while parsing '" + string + "' at " +
                             "position " + j);
                 }
-                if (string.charAt(j) == 'E') {
+                if (string.charAt(j) == 'e' || string.charAt(j) == 'E') {
                     if (!doubleExpFound) {
                         doubleExpFound = true;
-                    } else throw new ParseException("Redundant exponent in number while parsing " + string + " at " +
+                    } else throw new ParseException("Redundant exponent in number while parsing '" + string + "' at " +
                             "position " + j);
                 }
                 if (string.charAt(j) == '-') {
                     if (!minusAfterExpFound) {
                         minusAfterExpFound = true;
-                    } else throw new ParseException("Redundant minus in number while parsing " + string + " at " +
+                    } else throw new ParseException("Redundant minus in number while parsing '" + string + "' at " +
                             "position " + j);
                 }
                 number += string.charAt(j);
@@ -108,17 +110,19 @@ class ExpressionReader {
             return new Pair(number, j - 1);
         }
         //        return new Pair("EOF", 0);
-        throw new ParseException("Wrong symbol '" + c + "' while parsing " + string + " at " +
+        throw new ParseException("Wrong symbol '" + c + "' while parsing '" + string + "' at " +
                 "position " + position);
     }
 
     String next() throws ParseException {
-        return getToken().str;
+        if (tempPair == null) {
+            tempPair = getToken();
+        }
+        return tempPair.str;
     }
 
     void consume() throws ParseException {
-        position = getToken().value + 1;
+        position = tempPair.value + 1;
+        tempPair = null;
     }
-
-
 }

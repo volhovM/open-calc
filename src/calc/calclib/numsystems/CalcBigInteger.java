@@ -44,8 +44,11 @@ public class CalcBigInteger implements CalcNumerable<CalcBigInteger>, Comparable
         return new CalcBigInteger(a.subtract(b.a));
     }
 
+    private final static BigInteger BIGMINUSONE = new BigInteger("-1");
+
     @Override
     public CalcBigInteger power(CalcBigInteger b) {
+        if (a.equals(BigInteger.ZERO) && b.a.equals(BIGMINUSONE)) throw new DivideByZeroException();
         BigInteger result = BigInteger.ONE;
         BigInteger c = b.a;
         while (a.signum() > 0) {

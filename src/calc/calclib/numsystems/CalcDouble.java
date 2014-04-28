@@ -67,6 +67,7 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
 
     @Override
     public CalcDouble power(CalcDouble b) {
+//        if (a == 0 && b.a == -1) throw new DivideByZeroException();
         Double ret = Math.pow(a, b.a);
 //        if (ret.isInfinite()) {
 //            throw new OverflowException(a.toString());

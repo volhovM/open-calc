@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     private final short PRIORITY = 3;
 
+    @SafeVarargs
     public Multiply(Expression<T>... expressions) {
         super(expressions);
     }

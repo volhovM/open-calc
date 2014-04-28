@@ -8,7 +8,7 @@ import java.math.BigInteger;
  */
 public interface Convertible {
     public default <T extends CalcNumerable> Number getInner(T a) {
-        if (a.getClass() == CalcInt.class) {
+        if (a.getClass() == CalcInteger.class) {
             return a.toInteger();
         } else if (a.getClass() == CalcDouble.class) {
             return a.toDouble();
