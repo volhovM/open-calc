@@ -7,17 +7,11 @@ function cnst(a){
     return function() { return a; };
 }
 
+var varlist = "xyz";
+
 function variable(a){
-    switch (a){
-        case "x":
-            return function(x, y, z) {return x;};
-            break;
-        case "y":
-            return function(x, y, z) {return y;};
-            break;
-        case "z":
-            return function(x, y, z) {return z;};
-            break;
+    return function(){
+        return arguments[varlist.indexOf(a)];
     }
 }
 
@@ -37,13 +31,27 @@ function unaryOperation(foo){
     }
 }
 
-var add = binaryOperation(function(a, b){ return a + b;});
+function naryFunction(foo){
+    return function(){
+        var args = Array.prototype.slice.call(arguments);
+        return function(){
+            for (var i = 0; i < args.length; i++){
+                if (typeof(args[i]) === 'function') args[i] = args[i].apply(null, arguments);
+            }
+            return foo.apply(null, args)
+        }
+    }
+}
+
+var add = naryFunction(function(a, b){ return a + b;});
 var subtract = binaryOperation(function(a, b){ return a - b;});
 var multiply = binaryOperation(function(a, b){ return a * b;});
 var divide = binaryOperation(function(a, b) { return a / b;});
-var abs = unaryOperation(function(a){ return Math.abs(a);})
-var log = unaryOperation(function(a){ return Math.log(a);})
+var abs = unaryOperation(Math.abs);
+var log = unaryOperation(Math.log);
 
+
+print(log(variable("y"))(2, 2.78))
 //var expr = add(
 //    subtract(
 //        multiply(
@@ -61,13 +69,15 @@ var log = unaryOperation(function(a){ return Math.log(a);})
 //for(var i = 0; i < 10; i ++){
 //    print(expr(i));
 //}
-function readInt(string, i){
 
-    print("readed " + number)
-    return number;
-}
+//function parse(string){
+//    var tokens = string.split(\ +\);
+//
+//}
 
-function parse(string){
+
+
+function parseSimple(string){
     var stack = new Array();
     for(var i = 0; i < string.length; i++){
         switch (string.charAt(i)){
@@ -135,3 +145,4 @@ function parseAndEval(a, b){
 }
 
 //parseAndEval("2+3");
+//print(add(cnst(2), variable("x"))(3))
