@@ -9,15 +9,15 @@ import com.sun.istack.internal.NotNull;
  */
 
 public interface Expression<T extends CalcNumerable> {
-    public T evaluate(@NotNull T... args) throws CalcException;
+    T evaluate(@NotNull T... args) throws CalcException;
 
-    public String toString();
+    String toString();
 
-    public short getPriority();
+    short getPriority();
 
-    public Expression<T> simplify();
+    Expression<T> simplify(T type);
 
-    public boolean equals(Expression<T> a);
+    boolean equals(Expression<T> a);
 
     //test
 //    public static boolean equalsExp(Expression3 expressionOne, Expression3 expressionTwo) {

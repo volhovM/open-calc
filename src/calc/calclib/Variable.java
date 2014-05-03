@@ -7,7 +7,7 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public class Variable<T extends CalcNumerable<T>> implements Expression<T> {
+public final class Variable<T extends CalcNumerable<T>> implements Expression<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 5;
     private final char variableType;
@@ -51,7 +51,12 @@ public class Variable<T extends CalcNumerable<T>> implements Expression<T> {
     }
 
     @Override
-    public Expression<T> simplify() {
+    public Expression<T> simplify(T type) {
         return this;
+    }
+
+    @Override
+    public boolean equals(Expression<T> a) {
+        return a instanceof Variable && ((Variable) a).getVariableType() == getVariableType();
     }
 }

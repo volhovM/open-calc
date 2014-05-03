@@ -11,7 +11,7 @@ import java.util.function.Function;
  * @author volhovm
  *         Created on 22.04.14
  */
-public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<T> {
+public final class AbstractFunction<T extends CalcNumerable<T>> implements Expression<T> {
     private static enum Functions implements Applyable {
         //Put your function here:
         sin {
@@ -84,8 +84,8 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 4;
 
-    private Functions functionType;
-    private Expression<T> a;
+    private final Functions functionType;
+    private final Expression<T> a;
 
     public AbstractFunction(String s, T type, Expression<T> a) {
         try {
@@ -116,12 +116,12 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
     }
 
     @Override
-    public Expression<T> simplify() {
-        a = a.simplify();
-        if (a instanceof Const) {
+    public Expression<T> simplify(T type) {
+        Expression<T> curr = a.simplify(type);
+        if (curr instanceof Const) {
             evaluate();
         }
-        return this;
+        return curr;
     }
 
     @Override
@@ -129,5 +129,4 @@ public class AbstractFunction<T extends CalcNumerable<T>> implements Expression<
         return a instanceof AbstractFunction && this.a.equals(a)
                 && this.functionType.equals(((AbstractFunction) a).functionType);
     }
-
 }

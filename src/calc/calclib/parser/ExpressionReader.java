@@ -1,4 +1,4 @@
-package calc.parser;
+package calc.calclib.parser;
 
 /**
  * @author volhovm

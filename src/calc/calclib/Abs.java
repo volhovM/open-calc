@@ -7,12 +7,17 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public class Abs<T extends CalcNumerable<T>> extends UnaryOperations<T> {
+public final class Abs<T extends CalcNumerable<T>> extends UnaryOperation<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 4;
 
     public Abs(Expression<T> a) {
         super(a);
+    }
+
+    @Override
+    protected String getJoiner() {
+        return "abs";
     }
 
     @SafeVarargs
@@ -21,23 +26,17 @@ public class Abs<T extends CalcNumerable<T>> extends UnaryOperations<T> {
         return a.evaluate(args).abs();
     }
 
-    @Override
-    public String toString() {
-        return "abs(" + a.toString() + ")";
-    }
 
-    @Override
     public short getPriority() {
         return PRIORITY;
     }
 
     @Override
-    public Expression<T> simplify() {
-        a = a.simplify();
-        if (a instanceof Const) {
-            ((Const) a).constant = ((Const) a).constant.abs();
-            return a;
+    public Expression<T> simplify(T type) {
+        Expression<T> curr = a.simplify(type);
+        if (curr instanceof Const) {
+            ((Const) curr).constant = ((Const) curr).constant.abs();
         }
-        return this;
+        return curr;
     }
 }

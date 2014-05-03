@@ -1,8 +1,7 @@
 package calc;
 
 import calc.calclib.exceptions.CalcException;
-import calc.parser.ExpressionParser;
-import calc.parser.ParseException;
+import calc.calclib.parser.ParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,14 +66,14 @@ public class ShellCalc {
                             System.out.println("Wrong variable, only a-z allowed.");
                             continue;
                         }
-                        variables[pos] = ExpressionParser.parseAndEval(currentMode, currentInput.split("=")[1], variables);
+                        variables[pos] = CalcDashboard.parseAndEval(currentMode, currentInput.split("=")[1], variables);
                         System.out.println(currentInput.split("=")[0].charAt(0) + " = " + variables[pos]);
                     } catch (ParseException | CalcException e) {
                         System.out.println(e.getMessage());
                     }
                 } else {
                     try {
-                        System.out.println(ExpressionParser.parseAndEval(currentMode, currentInput, variables));
+                        System.out.println(CalcDashboard.parseAndEval(currentMode, currentInput, variables));
                     } catch (ParseException | CalcException e) {
                         System.out.println(e.getMessage());
                     }

@@ -9,12 +9,17 @@ import calc.calclib.numsystems.CalcNumerable;
  */
 
 
-public class BinaryLog<T extends CalcNumerable<T>> extends UnaryOperations<T> {
+public final class BinaryLog<T extends CalcNumerable<T>> extends UnaryOperation<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 4;
 
     public BinaryLog(Expression<T> a) {
         super(a);
+    }
+
+    @Override
+    protected String getJoiner() {
+        return "lb";
     }
 
     @SafeVarargs
@@ -24,22 +29,17 @@ public class BinaryLog<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     }
 
     @Override
-    public String toString() {
-        return ("lb(" + a.toString() + ")");
-    }
-
-    @Override
     public short getPriority() {
         return PRIORITY;
     }
 
     @Override
-    public Expression<T> simplify() {
-        a = a.simplify();
-        if (a instanceof Const) {
-            ((Const) a).constant = ((Const) a).constant.binaryLog();
-            return a;
+    public Expression<T> simplify(T type) {
+        Expression<T> curr = a.simplify(type);
+        if (curr instanceof Const) {
+            ((Const) curr).constant = ((Const) curr).constant.binaryLog();
+            return curr;
         }
-        return this;
+        return curr;
     }
 }

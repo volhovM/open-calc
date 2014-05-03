@@ -6,8 +6,8 @@ import calc.calclib.numsystems.CalcBigInteger;
 import calc.calclib.numsystems.CalcDouble;
 import calc.calclib.numsystems.CalcInteger;
 import calc.calclib.numsystems.CalcNumerable;
-import calc.parser.ExpressionParser;
-import calc.parser.ParseException;
+import calc.calclib.parser.ExpressionParser;
+import calc.calclib.parser.ParseException;
 
 import java.math.BigInteger;
 

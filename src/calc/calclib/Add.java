@@ -3,14 +3,11 @@ package calc.calclib;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcNumerable;
 
-import java.util.HashSet;
-import java.util.stream.Collectors;
-
 /**
  * @author volhovm
  */
 
-public class Add<T extends CalcNumerable<T>> extends BinaryOperations<T> {
+public final class Add<T extends CalcNumerable<T>> extends NaryOperation<T> {
     private final short PRIORITY = 2;
 
     @SafeVarargs
@@ -28,31 +25,23 @@ public class Add<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     }
 
     @Override
-    public String toString() {
-        return arguments.stream()
-                .map((Expression<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
-                        "(" + x.toString() + ")")
-                .collect(Collectors.joining(" + "));
-    }
-
-    @Override
     public short getPriority() {
         return PRIORITY;
     }
 
     @Override
-    public Expression<T> simplify() {
-        for (int i = 0; i < arguments.size(); i++) {
-            arguments.set(i, arguments.get(i).simplify());
+    Expression<T> simplifyTwo(Expression<T> left, Expression<T> right, T type) {
+        if (left instanceof Const && right instanceof Const) return new Const<T>(evaluate());
+        else if (left.equals(right)) return new Multiply<T>(new Const<T>(type.parse("2")), left);
+        else if ((left instanceof UnaryMin && ((UnaryMin<T>) left).a.equals(right)) ||
+                (right instanceof UnaryMin && ((UnaryMin<T>) right).a.equals(left))) {
+            return new Const<T>(type.parse("0"));
         }
-        for (int i = 0; i < arguments.size(); i++) {
-            for (int j = i; j < arguments.size(); j++) {
-                if (arguments.size() > 1) {
-                    Expression<T> x = arguments.get(i);
-                    Expression<T> y = arguments.get(j);
+        return null;
+    }
 
-                }
-            }
-        }
+    @Override
+    protected String getJoiner() {
+        return " + ";
     }
 }

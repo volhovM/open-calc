@@ -3,39 +3,35 @@ package calc.calclib;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcNumerable;
 
-import java.util.stream.Collectors;
-
 /**
  * @author volhovm
  */
-@SuppressWarnings("UnusedDeclaration")
 @Deprecated
-public class Subtract<T extends CalcNumerable<T>> extends BinaryOperations<T> {
+public final class Subtract<T extends CalcNumerable<T>> extends BinaryOperation<T> {
     private final static short PRIORITY = 2;
 
-    public Subtract(Expression<T>... expressions) {
-        super(expressions);
+    public Subtract(Expression<T> a, Expression<T> b) {
+        super(a, b);
     }
 
     @SafeVarargs
     @Override
     public final T evaluate(T... args) throws CalcException {
-        return arguments.stream()
-                .map((Expression<T> a) -> a.evaluate(args))
-                .reduce((a, b) -> a.sub(b))
-                .get();
-    }
-
-    @Override
-    public String toString() {
-        return arguments.stream()
-                .map((Expression<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
-                        "(" + x.toString() + ")")
-                .collect(Collectors.joining(" - "));
+        return a.evaluate(args).sub(b.evaluate(args));
     }
 
     @Override
     public short getPriority() {
         return PRIORITY;
+    }
+
+    @Override
+    public Expression<T> simplify(T type) {
+        return this;
+    }
+
+    @Override
+    String getJoiner() {
+        return " - ";
     }
 }

@@ -3,13 +3,11 @@ package calc.calclib;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcNumerable;
 
-import java.util.stream.Collectors;
-
 /**
  * @author volhovm
  */
 
-public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
+public final class Multiply<T extends CalcNumerable<T>> extends NaryOperation<T> {
     private final short PRIORITY = 3;
 
     @SafeVarargs
@@ -27,15 +25,22 @@ public class Multiply<T extends CalcNumerable<T>> extends BinaryOperations<T> {
     }
 
     @Override
-    public String toString() {
-        return arguments.stream()
-                .map((Expression<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
-                        "(" + x.toString() + ")")
-                .collect(Collectors.joining(" * "));
+    protected String getJoiner() {
+        return " * ";
     }
 
     @Override
     public short getPriority() {
         return PRIORITY;
+    }
+
+    @Override
+    Expression<T> simplifyTwo(Expression<T> left, Expression<T> right, T type) {
+        if (left instanceof Const && right instanceof Const) return new Const<T>(evaluate());
+        else if (left.equals(right)) return new Power<T>(left, new Const<T>(type.parse("2")));
+        else if (left instanceof Power && right instanceof Power && ((Power<T>) left).getA().equals(((Power<T>) right).getA())) {
+            return new Power<T>(((Power<T>) left).getA(), new Add<T>(((Power<T>) left).getB(), ((Power<T>) right).getB()));
+        }
+        return null;
     }
 }

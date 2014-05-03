@@ -3,42 +3,50 @@ package calc.calclib;
 import calc.calclib.exceptions.CalcException;
 import calc.calclib.numsystems.CalcNumerable;
 
-import java.util.stream.Collectors;
-
 /**
  * @author volhovm
  */
-public class Power<T extends CalcNumerable<T>> extends BinaryOperations<T> {
+public final class Power<T extends CalcNumerable<T>> extends BinaryOperation<T> {
     private static final short PRIORITY = 5;
+    private boolean isBOne = false;
 
-    @SafeVarargs
-    public Power(Expression<T>... expressions) {
-        super(expressions);
+    public Power(Expression<T> a, Expression<T> b) {
+        super(a, b);
     }
 
     @SafeVarargs
     @Override
     public final T evaluate(T... args) throws CalcException {
-        return arguments.stream()
-                .map((Expression<T> a) -> a.evaluate(args))
-                .reduce((a, b) -> a.power(b))
-                .get();
+        return a.evaluate(args).power(b.evaluate(args));
     }
 
     @Override
     public String toString() {
-        return arguments.stream()
-                .map((Expression<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
-                        "(" + x.toString() + ")")
-                .collect(Collectors.joining(" ^ "));
+        if (isBOne) return a.toString();
+        else return super.toString();
     }
 
-    private String getOP() {
+    @Override
+    String getJoiner() {
         return " ^ ";
     }
 
     @Override
     public short getPriority() {
         return PRIORITY;
+    }
+
+    @Override
+    public Expression<T> simplify(T type) {
+        Expression<T> ret = new Power<T>(a.simplify(type), b.simplify(type));
+        if (b instanceof Const) {
+            if (b.equals(new Const<T>(type.parse("1")))) {
+                isBOne = true;
+                ret = a;
+            } else if (b.equals(new Const<T>(type.parse("0")))) {
+                ret = new Const<T>(type.parse("0"));
+            }
+        }
+        return ret;
     }
 }

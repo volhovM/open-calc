@@ -7,7 +7,7 @@ import calc.calclib.numsystems.CalcNumerable;
  * @author volhovm
  */
 
-public class UnaryMin<T extends CalcNumerable<T>> extends UnaryOperations<T> {
+public final class UnaryMin<T extends CalcNumerable<T>> extends UnaryOperation<T> {
     private final short PRIORITY = 4;
 
     public UnaryMin(Expression<T> a) {
@@ -21,21 +21,21 @@ public class UnaryMin<T extends CalcNumerable<T>> extends UnaryOperations<T> {
     }
 
     @Override
-    public String toString() {
-        return "-" + (a.getPriority() >= PRIORITY ? a.toString() : "(" + a.toString() + ")");
-    }
-
-    @Override
     public short getPriority() {
         return PRIORITY;
     }
 
     @Override
-    public Expression<T> simplify() {
-        a = a.simplify();
-        if (a instanceof Const) {
-            ((Const) a).constant = ((Const) a).constant.unaryMin();
-            return a;
+    String getJoiner() {
+        return "-";
+    }
+
+    @Override
+    public Expression<T> simplify(T type) {
+        Expression<T> ret = a.simplify(type);
+        if (ret instanceof Const) {
+            ((Const) ret).constant = ((Const) ret).constant.unaryMin();
+            return ret;
         }
         return this;
     }
