@@ -108,7 +108,7 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
     }
 
     public String toString() {
-        return a.toString();
+        return (a % a == 0) ? String.valueOf(a.intValue()) : a.toString();
     }
 
     @Override
@@ -157,5 +157,22 @@ public class CalcDouble implements CalcNumerable<CalcDouble>, Comparable<CalcDou
     @Override
     public BigInteger toBigInt() {
         return new BigInteger(a.toString());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CalcDouble that = (CalcDouble) o;
+
+        if (a != null ? !a.equals(that.a) : that.a != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return a != null ? a.hashCode() : 0;
     }
 }

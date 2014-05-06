@@ -21,7 +21,10 @@ public class ExpressionParser<T extends CalcNumerable<T>> {
     public Expression<T>
     parse(T type, String expression) throws ParseException {
         ExpressionReader reader = new ExpressionReader(expression.trim());
-        return firstLevel(type, reader);
+        Expression<T> ret = firstLevel(type, reader);
+        if (reader.getPosition() != reader.getString().length())
+            System.err.println("Pay attention! Characters were parsed: " + reader.getPosition());
+        return ret;
     }
 
 
@@ -116,7 +119,7 @@ public class ExpressionParser<T extends CalcNumerable<T>> {
         String s = reader.next();
         while (s.equals(" ^ ")) {
             reader.consume();
-            ret = new Power<T>(ret, fourthLevel(type, reader));
+            ret = new Power<T>(ret, thirdLevel(type, reader));
             s = reader.next();
             if (s.equals("EOF")) {
                 break;

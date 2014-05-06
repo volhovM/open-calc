@@ -28,4 +28,9 @@ public abstract class UnaryOperation<T extends CalcNumerable<T>> implements Expr
     public boolean equals(Expression<T> a) {
         return (a.getClass() == this.getClass() && this.a.equals(a));
     }
+
+    @Override
+    public int hashCode() {
+        return a != null ? a.hashCode() : 0;
+    }
 }

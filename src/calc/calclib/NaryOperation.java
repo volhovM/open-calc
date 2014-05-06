@@ -5,7 +5,6 @@ import com.sun.istack.internal.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,10 +15,11 @@ import java.util.stream.Stream;
 public abstract class NaryOperation<T extends CalcNumerable> implements Expression<T> {
     final private short PRIORITY = -1;
     final ArrayList<Expression<T>> arguments;
+    private final int SIMPLIFY_RATE = 1;
 
     @SafeVarargs
     public NaryOperation(@NotNull Expression<T>... expressions) {
-        arguments = new ArrayList<>();
+        arguments = new ArrayList<Expression<T>>();
         Collections.addAll(arguments, expressions);
     }
 
@@ -35,21 +35,23 @@ public abstract class NaryOperation<T extends CalcNumerable> implements Expressi
 
     @Override
     public Expression<T> simplify(T type) {
-        for (int i = 0; i < arguments.size(); i++) { //simplify all the arguments
-            arguments.set(i, arguments.get(i).simplify(type));
-        }
-        for (int i = 0; i < arguments.size(); i++) {
-            for (int j = i + 1; j < arguments.size(); j++) {
-                if (arguments.size() > 1) {
-                    Expression<T> left = arguments.get(i);
-                    Expression<T> right = arguments.get(j);
-                    Expression<T> res = simplifyTwo(left, right, type);
-                    if (res != null) {
-                        arguments.remove(left);
-                        arguments.remove(right);
-                        arguments.add(res);
-                    }
-                } else return this;
+        for (int k = 0; k < SIMPLIFY_RATE; k++) {
+            for (int i = 0; i < arguments.size(); i++) { //simplify all the arguments
+                arguments.set(i, arguments.get(i).simplify(type));
+            }
+            for (int i = 0; i < arguments.size(); i++) {
+                for (int j = i + 1; j < arguments.size(); j++) {
+                    if (arguments.size() > 1) {
+                        Expression<T> left = arguments.get(i);
+                        Expression<T> right = arguments.get(j);
+                        Expression<T> res = simplifyTwo(left, right, type);
+                        if (res != null) {
+                            arguments.remove(left);
+                            arguments.remove(right);
+                            arguments.add(res);
+                        }
+                    } else return this;
+                }
             }
         }
         return this;
@@ -59,16 +61,26 @@ public abstract class NaryOperation<T extends CalcNumerable> implements Expressi
 
     @Override
     public boolean equals(Expression<T> a) {
-        return a instanceof NaryOperation
-                && new HashSet<>(this.arguments).equals(new HashSet<>(((NaryOperation<T>) a).arguments));
+        if (a instanceof NaryOperation) {
+            if (size() != ((NaryOperation) a).size()) return false;
+            c1:
+            for (int i = 0; i < size(); i++) {
+                for (int j = i; j < ((NaryOperation) a).size(); j++) {
+                    Expression<T> iArg = arguments.get(i);
+                    Expression<T> jArg = arguments.get(j);
+                    if (jArg.equals(iArg)) continue c1;
+                }
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
-
-    //TODO override hash
 
     @Override
     public String toString() {
         return arguments.stream()
-                .map((Expression<T> x) -> x.getPriority() >= PRIORITY ? x.toString() :
+                .map((Expression<T> x) -> x.getPriority() > getPriority() ? x.toString() :
                         "(" + x.toString() + ")")
                 .collect(Collectors.joining(getJoiner()));
     }
@@ -77,6 +89,13 @@ public abstract class NaryOperation<T extends CalcNumerable> implements Expressi
 
     public Stream<Expression<T>> stream() {
         return arguments.stream();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) PRIORITY;
+        result = 31 * result + (arguments != null ? arguments.hashCode() : 0);
+        return result;
     }
 
     public int size() {

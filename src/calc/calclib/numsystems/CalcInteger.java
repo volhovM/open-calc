@@ -155,4 +155,21 @@ public class CalcInteger implements CalcNumerable<CalcInteger>, Comparable<CalcI
     public BigInteger toBigInt() {
         return new BigInteger(a.toString());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CalcInteger that = (CalcInteger) o;
+
+        if (a != null ? !a.equals(that.a) : that.a != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return a != null ? a.hashCode() : 0;
+    }
 }

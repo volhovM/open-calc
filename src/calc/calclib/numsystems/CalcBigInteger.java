@@ -68,10 +68,10 @@ public class CalcBigInteger implements CalcNumerable<CalcBigInteger>, Comparable
     public CalcBigInteger binaryLog() {
         BigInteger ret = BigInteger.ZERO;
         while (a.compareTo(BigInteger.ONE) > 0) {
-            a.divide(BigInteger.ONE.add(BigInteger.ONE));
-            ret.add(BigInteger.ONE);
+            a = a.divide(BigInteger.ONE.add(BigInteger.ONE));
+            ret = ret.add(BigInteger.ONE);
         }
-        return new CalcBigInteger(ret); //TODO insert binarylog code
+        return new CalcBigInteger(ret);
     }
 
     @Override
@@ -140,5 +140,22 @@ public class CalcBigInteger implements CalcNumerable<CalcBigInteger>, Comparable
     @Override
     public BigInteger toBigInt() {
         return a;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CalcBigInteger that = (CalcBigInteger) o;
+
+        if (a != null ? !a.equals(that.a) : that.a != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return a != null ? a.hashCode() : 0;
     }
 }

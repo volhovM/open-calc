@@ -9,7 +9,7 @@ import calc.calclib.numsystems.CalcNumerable;
 public final class Const<T extends CalcNumerable<T>> implements Expression<T> {
     @SuppressWarnings("FieldCanBeLocal")
     private final short PRIORITY = 5;
-    T constant; //FIXME mutable
+    T constant;
 
     public T getConstant() {
         return constant;
@@ -42,6 +42,11 @@ public final class Const<T extends CalcNumerable<T>> implements Expression<T> {
 
     @Override
     public boolean equals(Expression<T> a) {
-        return a instanceof Const && ((Const) a).getConstant().equals(this.constant);
+        if (a instanceof Const) {
+            T cs1 = ((Const<T>) a).getConstant();
+            T cs2 = getConstant();
+            return cs1.equals(cs2);
+        }
+        return false;
     }
 }

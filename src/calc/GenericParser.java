@@ -44,6 +44,7 @@ class GenericParser {
         for (int i = -100; i <= 100; i++) {
             for (int j = -100; j <= 100; j++) {
                 try {
+                    //noinspection unchecked
                     ret.append(expression.evaluate(
                             type.parse(String.valueOf(i)), type.parse(String.valueOf(j)), type.parse(String.valueOf(0))));
                     ret.append("\r\n");

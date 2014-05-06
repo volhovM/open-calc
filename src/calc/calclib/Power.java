@@ -28,7 +28,7 @@ public final class Power<T extends CalcNumerable<T>> extends BinaryOperation<T> 
 
     @Override
     String getJoiner() {
-        return " ^ ";
+        return "^";
     }
 
     @Override
@@ -45,6 +45,8 @@ public final class Power<T extends CalcNumerable<T>> extends BinaryOperation<T> 
                 ret = a;
             } else if (b.equals(new Const<T>(type.parse("0")))) {
                 ret = new Const<T>(type.parse("0"));
+            } else if (a instanceof Const) {
+                return new Const<T>(evaluate());
             }
         }
         return ret;

@@ -18,9 +18,9 @@ public abstract class BinaryOperation<T extends CalcNumerable<T>> implements Exp
         return b;
     }
 
-    public BinaryOperation(Expression<T> b, Expression<T> a) {
-        this.b = b;
+    public BinaryOperation(Expression<T> a, Expression<T> b) {
         this.a = a;
+        this.b = b;
     }
 
     @Override
@@ -43,5 +43,12 @@ public abstract class BinaryOperation<T extends CalcNumerable<T>> implements Exp
             return (this.a.equals(((BinaryOperation<T>) a).getA()) && this.b.equals(((BinaryOperation<T>) a).getB()));
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = a.hashCode();
+        result = 31 * result + b.hashCode();
+        return result;
     }
 }
