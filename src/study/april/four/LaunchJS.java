@@ -14,7 +14,7 @@ public class LaunchJS {
     public static void main(String[] args) throws FileNotFoundException {
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
         try {
-            engine.eval(new FileReader(System.getProperty("user.dir") + "/src/study/april/four/calcscript.js"));
+            engine.eval(new FileReader(System.getProperty("user.dir") + "/src/study/may/one/somescript.js"));
         } catch (ScriptException e) {
             System.err.println(e.getMessage());
         }
