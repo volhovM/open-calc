@@ -39,7 +39,7 @@ public final class AbstractFunction<T extends CalcNumerable<T>> implements Expre
                     }
                     return a.changeArg(ret);
                 });
-                Implementation.BigIntegerImp.setFunction(a -> {
+                Implementation.BigIntegerImp.setFunction((CalcNumerable a) -> {
                     BigInteger ret = BigInteger.ONE;
                     BigInteger b = a.toBigInt();
                     for (int i = 1; b.compareTo(new BigInteger(String.valueOf(i))) <= 0; i++) {

@@ -1,6 +1,4 @@
-
-
-   /**
+/**
  * @author volhovm
  * Created on 27.04.14
  */
@@ -51,21 +49,27 @@ function polishParse(string){
         switch (string.charAt(i)){
             case " ": break;
             case "x":
+                print("parsing: x");
                 stack.push(variable("x"));
                 break;
             case "+":
+            print("parsing: +");
                 stack.push(add(stack.pop(), stack.pop()));
                 break;
             case "-":
+            print("parsing: -");
                 stack.push(subtract(stack.pop(), stack.pop()));
                 break;
             case "*":
+            print("parsing: *");
                 stack.push(multiply(stack.pop(), stack.pop()));
                 break;
             case "/":
+            print("parsing: /");
                 stack.push(divide(stack.pop(), stack.pop()));
                 break;
             default:
+            print("parsing: number");
                 var number = string.charAt(i);
                 if (!number.match("[0-9]+")) { break; }
                 while (string.charAt(i+1).match("[0-9]+")) {
@@ -73,6 +77,7 @@ function polishParse(string){
                     number.concat(string.charAt(i));
                 }
                 stack.push(cnst(parseInt(number)));
+                print("!!!" + number);
                 break;
         }
     }
