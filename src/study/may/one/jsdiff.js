@@ -2,6 +2,8 @@
  * @author volhovm
  * Created on 5/19/14
  */
+ 
+ //Григорий Корнеев отметил, что данная работа иллюстрирует полное непонимание ООП структуры JS, be careful!
 
 function Expression(evaluate, toString, diff){
     this.evaluate = evaluate;
