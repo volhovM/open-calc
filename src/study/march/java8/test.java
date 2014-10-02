@@ -17,9 +17,8 @@ public class test {
         try {
             int a = 4 / 0;
         } catch (NullPointerException | ArrayIndexOutOfBoundsException ignored) {
-
         } finally {
-            System.out.println("lOL!");
+            System.out.println("test");
         }
     }
 
