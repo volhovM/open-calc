@@ -11,6 +11,7 @@ import java.math.BigInteger;
  *         Created on 27.04.14
  */
 public class ShellCalc {
+
     private String getHelpMSG() {
         return "Write down expression to evaluate, let $ = ... to initialize variables (a-z), \r\n" +
                 ":h to display help, " +
@@ -18,14 +19,16 @@ public class ShellCalc {
                 "Current type: " + currentMode + ", simplify mode is " + (!simplifyMode ? "off" : "on");
     }
 
+    private final BufferedReader reader;
     private boolean simplifyMode = true;
     private String currentMode;
     private PrintWriter writer;
     private String currentInput;
     private Number[] variables;
 
-    public ShellCalc(Reader reader, Writer writer) {
+    public ShellCalc(BufferedReader reader, Writer writer) {
         this.writer = new PrintWriter(writer);
+        this.reader = reader;
     }
 
     public void init(String[] args) throws TypeException {
@@ -51,7 +54,7 @@ public class ShellCalc {
         writer.println(getHelpMSG());
     }
 
-    public void response(BufferedReader reader) {
+    public void response() {
         try {
             try {
                 currentInput = reader.readLine().trim().toLowerCase();
